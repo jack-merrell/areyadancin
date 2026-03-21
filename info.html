@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Info | Jack & Lou</title>
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="site-wrapper">
+        <main class="content info-content">
+            <header class="info-page-header">
+                <a href="/" class="back-link">← Back</a>
+                <div class="stacked-title">
+                    <span>MORE INFO</span>
+                </div>
+            </header>
+
+            <section class="info-section">
+                <h2>Hotels</h2>
+                <p>Harrogate is not short of beautiful hotels, pubs or BnBs. Here's a selection (Local Town Centre):
+                </p>
+                <ul class="info-list">
+
+                    <li>Hotel Du Vin</li>
+                    <li>The Yorkshire</li>
+                    <li>The Crown</li>
+                    <li>White Hart</li>
+                    <li>The Old Swan</li>
+                    <li>The Studley</li>
+                    <li>The Harrogate Inn</li>
+                    <li>West Park Hotel</li>
+                    <li>Cedar Court Hotel</li>
+                </ul>
+                <br>
+                <p>Beautiful stays on the outskirts / surrounding areas:
+                <ul class="info-list">
+                    <li>Wellington Inn, Darley</li>
+                    <li>The Pine Marten, Harrogate (Harlow Carr)</li>
+                    <li>Rudding Park Spa</li>
+                </ul>
+                </p>
+                <p>Plus many other cottages, holiday homes and pubs available on AirBnb or Booking.com. If you'd like
+                    any help please drop Jack or Lou a message!</p>
+            </section>
+
+            <section class="info-section">
+                <h2>Transport</h2>
+                <p>Almscliffe Valley is located a short 10 minute drive from the centre of Harrogate.</p>
+                <p>The venue offers the chance for in-field parking, but please bear in mind weather conditions may make
+                    parking difficult. Alternatively here are some local taxi companies:</p>
+                <ul class="info-list">
+                    <li>Blueline Taxis</li>
+                    <li>Mainline Taxis</li>
+                    <li>Dash Taxis Harrogate</li>
+                    <li>3 Harrogate Taxi</li>
+                </ul>
+
+            </section>
+
+            <section class="info-section">
+                <h2>FAQs</h2>
+                <p class="question">Where exactly is the venue?</p>
+                <p>We've been advised to use “What Three Words” to give a precise location. Find us at
+                    ///Hike.Panting.Archduke.</p>
+
+                <p class="question">What is the taxi situation?</p>
+                <p>Unlike London and Amsterdam, local taxi services are more common. Pre-book for peace of mind or use
+                    Uber on the day.</p>
+
+                <p class="question">Is anything happening the night before?</p>
+                <p>Stay tuned. We'd love to book some tables in a pub in Harrogate as a welcome on the Friday evening.
+                </p>
+
+                <p class="question">Will there be food?</p>
+                <p>There will! We are working with some food truck vendors for an informal meal.</p>
+
+                <p class="question">What about drinks?</p>
+                <p>We'll be providing reception, toast and table drinks. At the end of the day
+                    there will also be a bar to buy your own wine, beer, cocktails or soft drinks.</p>
+
+                <p class="question">What if it rains?</p>
+                <p>Bring a layer and a rain jacket. We will have the warmth of DJs,
+                    a disco ball and the dancefloor but you may have a couple of moments waiting outside.</p>
+
+                <p class="question">I'm planning on bringing my child, what services are there?</p>
+
+                <p>Although we have no child-specific activities planned, your child / baby is more than welcome. This
+                    is still a work in progress but we hope to provide a safe, enclosed area and baby changing
+                    facilities. Speak to us for more info.
+                </p>
+
+                <a href="/" class="back-link">← Back</a>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Background Grain Texture handled by .site-wrapper::after in CSS -->
+
+    <svg style="display: none;">
+        <filter id="ink-bleed">
+            <feTurbulence id="ink-bleed-turbulence" type="fractalNoise" baseFrequency="0.02" numOctaves="4"
+                result="noise" />
+            <feDisplacementMap id="ink-bleed-displacement" in="SourceGraphic" in2="noise" scale="1.2"
+                xChannelSelector="R" yChannelSelector="G" result="displacement" />
+            <feGaussianBlur id="ink-bleed-blur" in="displacement" stdDeviation="0.4" />
+        </filter>
+    </svg>
+</body>
+
+</html>
