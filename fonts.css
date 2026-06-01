@@ -1,0 +1,89 @@
+@font-face {
+    font-family: 'PP Editorial New';
+    src: url('/fonts/PPEditorialNew-UltralightItalic.woff2') format('woff2'),
+        url('/fonts/PPEditorialNew-UltralightItalic.woff') format('woff');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PP Editorial New';
+    src: url('/fonts/PPEditorialNew-Ultrabold.woff2') format('woff2'),
+        url('/fonts/PPEditorialNew-Ultrabold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PP Editorial New';
+    src: url('/fonts/PPEditorialNew-Ultralight.woff2') format('woff2'),
+        url('/fonts/PPEditorialNew-Ultralight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PP Editorial New';
+    src: url('/fonts/PPEditorialNew-UltraboldItalic.woff2') format('woff2'),
+        url('/fonts/PPEditorialNew-UltraboldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PP Editorial New';
+    src: url('/fonts/PPEditorialNew-Regular.woff2') format('woff2'),
+        url('/fonts/PPEditorialNew-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PP Editorial New';
+    src: url('/fonts/PPEditorialNew-Italic.woff2') format('woff2'),
+        url('/fonts/PPEditorialNew-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PP Lettra Mono';
+    src: url('/fonts/PPLettraMono-Medium.woff2') format('woff2'),
+        url('/fonts/PPLettraMono-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PP Object Sans';
+    src: url('/fonts/PPObjectSans-Regular.woff2') format('woff2'),
+        url('/fonts/PPObjectSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PP Object Sans';
+    src: url('/fonts/PPObjectSans-Heavy.woff2') format('woff2'),
+        url('/fonts/PPObjectSans-Heavy.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poetsen One';
+    src: url('/fonts/PoetsenOne-Regular.woff2') format('woff2'),
+        url('/fonts/PoetsenOne-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

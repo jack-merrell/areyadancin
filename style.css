@@ -1,4 +1,4 @@
-@import url('/fonts/stylesheet.css');
+@import url('./fonts.css');
 
 :root {
     --bg-color: #e4e2db;
@@ -688,6 +688,21 @@ a.gallery-video-item {
     font-weight: 600;
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
+}
+
+/* iOS Safari can render large SVG filter/blend stacks as horizontal bands. */
+.ios-safari .invitation-copy,
+.ios-safari .agenda-copy,
+.ios-safari .rsvp-note,
+.ios-safari .sign-off-container {
+    filter: none;
+}
+
+.ios-safari .invitation-copy p,
+.ios-safari .rsvp-note,
+.ios-safari .hat-illustration,
+.ios-safari .sign-off {
+    mix-blend-mode: normal;
 }
 
 .bank-details-grid {

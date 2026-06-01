@@ -51,6 +51,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Detect Safari for performance optimization
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    if (isSafari && isIOS) {
+        document.documentElement.classList.add('ios-safari');
+    }
     
     // Settings for GUI - Separate Desktop and Mobile
     const settings = {
@@ -396,4 +402,3 @@ window.addEventListener('DOMContentLoaded', () => {
     settings.parallax.currentFront = settings.parallax.targetFront;
     settings.parallax.currentBack = settings.parallax.targetBack;
 });
-
