@@ -176,6 +176,12 @@ body.lightbox-open {
     object-fit: contain;
     cursor: default;
     box-shadow: 0 22px 72px rgba(0, 0, 0, 0.45);
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.lightbox-image:active {
+    cursor: grabbing;
 }
 
 .lightbox-close {

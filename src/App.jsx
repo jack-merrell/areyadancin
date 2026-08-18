@@ -9,6 +9,8 @@ import {
 import { tracks } from './photoTracks.js';
 
 const DRAG_CLICK_THRESHOLD = 8;
+const LIGHTBOX_SWIPE_DISTANCE = 70;
+const LIGHTBOX_SWIPE_VELOCITY = 520;
 
 const useDragBounds = (viewportRef, trackRef) => {
     const [bounds, setBounds] = useState({ left: 0, right: 0 });
@@ -116,6 +118,7 @@ const GalleryTrack = ({ track, onPhotoOpen }) => {
 };
 
 const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
+    const x = useMotionValue(0);
     const reduceMotion = useReducedMotion();
     const imageTransition = reduceMotion
         ? { duration: 0.01 }
@@ -125,6 +128,10 @@ const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
             damping: 32,
             mass: 0.8,
         };
+
+    useEffect(() => {
+        x.set(0);
+    }, [photo.id, x]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -151,6 +158,15 @@ const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
         };
     }, [onClose, onNext, onPrevious]);
 
+    const handleDragEnd = (_, info) => {
+        const swipeLeft = info.offset.x < -LIGHTBOX_SWIPE_DISTANCE || info.velocity.x < -LIGHTBOX_SWIPE_VELOCITY;
+        const swipeRight = info.offset.x > LIGHTBOX_SWIPE_DISTANCE || info.velocity.x > LIGHTBOX_SWIPE_VELOCITY;
+
+        x.set(0);
+        if (swipeLeft) onNext();
+        if (swipeRight) onPrevious();
+    };
+
     return (
         <motion.div
             className="photo-lightbox"
@@ -169,10 +185,16 @@ const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
             <motion.img
                 className="lightbox-image"
                 layoutId={`photo-${photo.id}`}
+                style={{ x }}
                 src={photo.src}
                 alt={photo.alt}
                 width={photo.width}
                 height={photo.height}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={reduceMotion ? 0.08 : 0.22}
+                dragMomentum={false}
+                onDragEnd={handleDragEnd}
                 onClick={(event) => event.stopPropagation()}
                 transition={imageTransition}
             />
