@@ -1,0 +1,207 @@
+@import '../style.css';
+
+:root {
+    --gallery-red: #f51717;
+    --gallery-paper: #f7f7f7;
+    --thumb-short: clamp(60px, 8.2vw, 67.5px);
+    --thumb-long: clamp(90px, 12.3vw, 101.25px);
+    --track-gap: clamp(5px, 0.75vw, 6.25px);
+}
+
+body.lightbox-open {
+    overflow: hidden;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+.ink-filter-svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.thank-you-content {
+    min-height: 100vh;
+}
+
+.thank-you-gallery {
+    min-height: 100vh;
+    position: relative;
+    padding: clamp(2.5rem, 7vw, 5.2rem) 0 clamp(5rem, 13vw, 9rem);
+    background: var(--gallery-paper);
+    overflow: hidden;
+}
+
+.festival-lockup {
+    display: grid;
+    justify-items: center;
+    gap: 0.25rem;
+    margin-bottom: clamp(4.75rem, 12vw, 7rem);
+    color: var(--gallery-red);
+    filter: url(#ink-bleed);
+}
+
+.festival-couple-mark {
+    width: clamp(128px, 23vw, 201px);
+    height: auto;
+    display: block;
+}
+
+.festival-title-mark {
+    display: grid;
+    justify-items: center;
+    width: clamp(228px, 39vw, 332px);
+    padding: clamp(0.28rem, 0.65vw, 0.42rem) clamp(0.3rem, 0.85vw, 0.55rem);
+    border: clamp(2px, 0.35vw, 3px) solid var(--gallery-red);
+    font-family: 'PP Object Sans', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.35rem, 6.55vw, 3.47rem);
+    line-height: 0.8;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+.gallery-track-section {
+    position: relative;
+    color: var(--gallery-red);
+}
+
+.track-label {
+    padding-left: clamp(1.45rem, 5.5vw, 3rem);
+    margin-bottom: 1.12rem;
+    text-transform: uppercase;
+    color: var(--gallery-red);
+    filter: url(#ink-bleed);
+}
+
+.track-act {
+    font-family: 'PP Lettra Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1;
+    letter-spacing: -0.08em;
+    font-feature-settings: "swsh" 1, "onum" 1, "pnum" 1;
+}
+
+.track-label h2 {
+    margin: 0;
+    font-family: 'PP Object Sans', sans-serif;
+    font-size: clamp(1rem, 2.3vw, 1.125rem);
+    font-weight: 800;
+    font-style: italic;
+    line-height: 0.95;
+    letter-spacing: 0;
+}
+
+.track-viewport {
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.track-viewport:active {
+    cursor: grabbing;
+}
+
+.photo-track {
+    display: flex;
+    align-items: center;
+    gap: var(--track-gap);
+    width: max-content;
+    padding: 0 clamp(1.45rem, 5.5vw, 3rem);
+    will-change: transform;
+}
+
+.photo-tile {
+    position: relative;
+    flex: 0 0 auto;
+    display: block;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    overflow: hidden;
+    line-height: 0;
+    cursor: pointer;
+    filter: url(#ink-bleed);
+}
+
+.photo-tile--portrait {
+    width: var(--thumb-short);
+    height: var(--thumb-long);
+}
+
+.photo-tile--landscape {
+    width: var(--thumb-long);
+    height: var(--thumb-short);
+}
+
+.photo-tile img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.photo-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: clamp(1rem, 4vw, 2.5rem);
+    background: rgba(20, 18, 16, 0.86);
+    cursor: zoom-out;
+}
+
+.lightbox-image {
+    max-width: min(94vw, 1480px);
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    cursor: default;
+    box-shadow: 0 22px 72px rgba(0, 0, 0, 0.45);
+}
+
+.lightbox-close {
+    position: fixed;
+    top: clamp(1rem, 3vw, 1.5rem);
+    right: clamp(1rem, 3vw, 1.5rem);
+    z-index: 1001;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    background: transparent;
+    color: #fff;
+    font-family: 'PP Lettra Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+@media (max-width: 850px) {
+    .thank-you-gallery {
+        min-height: 100svh;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .photo-track,
+    .photo-tile,
+    .lightbox-image,
+    .photo-lightbox {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
