@@ -114,10 +114,11 @@ const GalleryTrack = ({ track, onPhotoOpen }) => {
                         >
                             <motion.img
                                 layoutId={`photo-${photo.id}`}
-                                src={photo.src}
+                                src={photo.previewSrc}
                                 alt={photo.alt}
                                 draggable="false"
                                 loading={track.id === '01' && photo.index < 10 ? 'eager' : 'lazy'}
+                                decoding="async"
                                 width={photo.width}
                                 height={photo.height}
                             />

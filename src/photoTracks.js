@@ -364,6 +364,7 @@ const buildPhotos = (folder, files) => files.map((photo, index) => ({
     id: `${folder.replaceAll('/', '-')}-${photo.file.replace(/\W+/g, '-').toLowerCase()}`,
     index,
     src: encodeURI(`${folder}/${photo.file}`),
+    previewSrc: encodeURI(`${folder.replace('/photos/', '/photos-preview/')}/${photo.file}`),
     alt: `${folder.slice(-2)} photo ${index + 1}`,
     orientation: photo.width >= photo.height ? 'landscape' : 'portrait',
 }));
