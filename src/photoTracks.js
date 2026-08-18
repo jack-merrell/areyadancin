@@ -359,15 +359,21 @@ const actSevenFiles = [
     { file: 'actseven-94.jpg', width: 1620, height: 1080 },
 ];
 
-const buildPhotos = (folder, files) => files.map((photo, index) => ({
-    ...photo,
-    id: `${folder.replaceAll('/', '-')}-${photo.file.replace(/\W+/g, '-').toLowerCase()}`,
-    index,
-    src: encodeURI(`${folder}/${photo.file}`),
-    previewSrc: encodeURI(`${folder.replace('/photos/', '/photos-preview/')}/${photo.file}`),
-    alt: `${folder.slice(-2)} photo ${index + 1}`,
-    orientation: photo.width >= photo.height ? 'landscape' : 'portrait',
-}));
+const buildPhotos = (folder, files) => files.map((photo, index) => {
+    const trackId = folder.slice(-2);
+    const fileSlug = photo.file.replace(/\.[^.]+$/, '');
+
+    return {
+        ...photo,
+        id: `${folder.replaceAll('/', '-')}-${photo.file.replace(/\W+/g, '-').toLowerCase()}`,
+        index,
+        src: encodeURI(`${folder}/${photo.file}`),
+        previewSrc: encodeURI(`${folder.replace('/photos/', '/photos-preview/')}/${photo.file}`),
+        hashPath: `${trackId}/${fileSlug}`,
+        alt: `${trackId} photo ${index + 1}`,
+        orientation: photo.width >= photo.height ? 'landscape' : 'portrait',
+    };
+});
 
 export const tracks = [
     {

@@ -41,6 +41,45 @@ const canPreloadTrackPreviews = () => {
     return !connection?.saveData;
 };
 
+const getPhotoHash = () => {
+    try {
+        return decodeURIComponent(window.location.hash)
+            .replace(/^#\/?/, '')
+            .replace(/\/$/, '')
+            .replace(/\.jpe?g$/i, '')
+            .toLowerCase();
+    } catch {
+        return '';
+    }
+};
+
+const getPhotoFromHash = () => {
+    const hashPath = getPhotoHash();
+    if (!hashPath) return null;
+
+    for (const track of tracks) {
+        const photo = track.photos.find((trackPhoto) => trackPhoto.hashPath.toLowerCase() === hashPath);
+        if (photo) return photo;
+    }
+
+    return null;
+};
+
+const setPhotoHash = (photo, mode = 'push') => {
+    if (!photo?.hashPath || getPhotoHash() === photo.hashPath.toLowerCase()) return;
+
+    const url = `${window.location.pathname}${window.location.search}#${photo.hashPath}`;
+    const method = mode === 'replace' ? 'replaceState' : 'pushState';
+    window.history[method](null, '', url);
+};
+
+const clearPhotoHash = () => {
+    if (!window.location.hash) return;
+
+    const url = `${window.location.pathname}${window.location.search}`;
+    window.history.replaceState(null, '', url);
+};
+
 const useDragBounds = (viewportRef, trackRef) => {
     const [bounds, setBounds] = useState({ left: 0, right: 0 });
 
@@ -426,30 +465,59 @@ export default function App() {
         };
     }, []);
 
+    useEffect(() => {
+        const syncPhotoFromHash = () => {
+            const hashedPhoto = getPhotoFromHash();
+
+            if (hashedPhoto) {
+                setHasLightboxNavigated(true);
+                setSelectedPhoto(hashedPhoto);
+                return;
+            }
+
+            if (!window.location.hash) {
+                setSelectedPhoto(null);
+                setHasLightboxNavigated(false);
+            }
+        };
+
+        syncPhotoFromHash();
+        window.addEventListener('hashchange', syncPhotoFromHash);
+        window.addEventListener('popstate', syncPhotoFromHash);
+
+        return () => {
+            window.removeEventListener('hashchange', syncPhotoFromHash);
+            window.removeEventListener('popstate', syncPhotoFromHash);
+        };
+    }, []);
+
     const openPhoto = (photo) => {
         setHasLightboxNavigated(false);
+        setPhotoHash(photo);
         setSelectedPhoto(photo);
     };
 
     const closePhoto = () => {
+        clearPhotoHash();
         setSelectedPhoto(null);
         setHasLightboxNavigated(false);
     };
 
     const navigateSelectedPhoto = (direction) => {
-        setHasLightboxNavigated(true);
-        setSelectedPhoto((currentPhoto) => {
-            const selectedPhotoContext = getSelectedPhotoContext(currentPhoto);
-            if (!selectedPhotoContext) return currentPhoto;
+        if (!selectedPhotoContext) return;
 
-            const { track, photoIndex } = selectedPhotoContext;
-            const nextIndex = (photoIndex + direction + track.photos.length) % track.photos.length;
-            return track.photos[nextIndex];
-        });
+        const { track, photoIndex } = selectedPhotoContext;
+        const nextIndex = (photoIndex + direction + track.photos.length) % track.photos.length;
+        const nextPhoto = track.photos[nextIndex];
+
+        setHasLightboxNavigated(true);
+        setPhotoHash(nextPhoto);
+        setSelectedPhoto(nextPhoto);
     };
 
     const selectLightboxPhoto = (photo) => {
         setHasLightboxNavigated(true);
+        setPhotoHash(photo);
         setSelectedPhoto(photo);
     };
 
