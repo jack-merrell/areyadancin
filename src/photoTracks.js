@@ -361,7 +361,7 @@ const actSevenFiles = [
 
 const buildPhotos = (folder, files) => files.map((photo, index) => {
     const trackId = folder.slice(-2);
-    const fileSlug = photo.file.replace(/\.[^.]+$/, '');
+    const photoPosition = String(index + 1).padStart(2, '0');
 
     return {
         ...photo,
@@ -369,7 +369,7 @@ const buildPhotos = (folder, files) => files.map((photo, index) => {
         index,
         src: encodeURI(`${folder}/${photo.file}`),
         previewSrc: encodeURI(`${folder.replace('/photos/', '/photos-preview/')}/${photo.file}`),
-        hashPath: `${trackId}/${fileSlug}`,
+        hashPath: `${trackId}/${photoPosition}`,
         alt: `${trackId} photo ${index + 1}`,
         orientation: photo.width >= photo.height ? 'landscape' : 'portrait',
     };

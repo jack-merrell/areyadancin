@@ -41,13 +41,22 @@ const canPreloadTrackPreviews = () => {
     return !connection?.saveData;
 };
 
+const normalizePhotoHashPath = (hashPath) => {
+    const [trackId, photoPosition] = hashPath.split('/');
+    if (!trackId || !/^\d+$/.test(photoPosition)) return hashPath;
+
+    return `${trackId.padStart(2, '0')}/${photoPosition.padStart(2, '0')}`;
+};
+
 const getPhotoHash = () => {
     try {
-        return decodeURIComponent(window.location.hash)
+        const hashPath = decodeURIComponent(window.location.hash)
             .replace(/^#\/?/, '')
             .replace(/\/$/, '')
             .replace(/\.jpe?g$/i, '')
             .toLowerCase();
+
+        return normalizePhotoHashPath(hashPath);
     } catch {
         return '';
     }
