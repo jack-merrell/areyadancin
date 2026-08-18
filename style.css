@@ -2,8 +2,8 @@
 
 :root {
     --bg-color: #e4e2db;
-    --text-color: #AF1A1A;
-    --dark-text-color: #AF1A1A;
+    --text-color: #F51717;
+    --dark-text-color: #F51717;
     --accent-color: #636e72;
     --font-family: 'PP Editorial New', serif;
 
@@ -133,7 +133,7 @@ body {
     margin-top: -10px;
     text-align: left;
     filter: url(#ink-bleed);
-    text-shadow: 1px 1px 0.5px rgba(175, 26, 26, 0.2);
+    text-shadow: 1px 1px 0.5px rgba(245, 23, 23, 0.2);
 }
 
 .hero-invite {
@@ -177,7 +177,7 @@ body {
     line-height: 0.85;
     letter-spacing: -0.035em;
     filter: url(#ink-bleed);
-    text-shadow: 1px 1px 1px rgba(175, 26, 26, 0.2);
+    text-shadow: 1px 1px 1px rgba(245, 23, 23, 0.2);
     padding-bottom: 2rem;
 }
 

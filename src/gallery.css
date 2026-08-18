@@ -1,7 +1,7 @@
 @import '../style.css';
 
 :root {
-    --gallery-red: #AF1A1A;
+    --gallery-red: #F51717;
     --gallery-paper: #f7f7f7;
     --thumb-short: clamp(90px, 12.3vw, 101.25px);
     --thumb-long: clamp(135px, 18.45vw, 151.875px);
