@@ -380,7 +380,7 @@ export const tracks = [
     {
         id: '02',
         act: 'ACT TWO',
-        title: 'THE MAIN EVENT | VOWS, RINGS \'N TINGS',
+        title: 'THE MAIN EVENT, VOWS, RINGS \'N TINGS',
         folder: '/photos/02',
         photos: buildPhotos('/photos/02', actTwoFiles),
     },
@@ -394,7 +394,7 @@ export const tracks = [
     {
         id: '04',
         act: 'ACT FOUR',
-        title: 'ALL TOGETHER NOW',
+        title: 'UNDER THE CRAG',
         folder: '/photos/04',
         photos: buildPhotos('/photos/04', actFourFiles),
     },
@@ -408,14 +408,14 @@ export const tracks = [
     {
         id: '06',
         act: 'ACT SIX',
-        title: 'ON THE DANCEFLOOR',
+        title: 'SOMETHING SWEET',
         folder: '/photos/06',
         photos: buildPhotos('/photos/06', actSixFiles),
     },
     {
         id: '07',
         act: 'ACT SEVEN',
-        title: 'THE AFTERS',
+        title: 'SOMETHING SWEATY',
         folder: '/photos/07',
         photos: buildPhotos('/photos/07', actSevenFiles),
     },

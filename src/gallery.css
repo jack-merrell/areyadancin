@@ -245,7 +245,6 @@ body.lightbox-open {
     display: flex;
     justify-content: flex-start;
     padding: 0.85rem 0 max(0.85rem, env(safe-area-inset-bottom));
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(4, 4, 4, 0.88);
     cursor: default;
 }
