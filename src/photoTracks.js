@@ -400,7 +400,7 @@ export const tracks = [
     {
         id: '04',
         act: 'ACT FOUR',
-        title: 'UNDER THE CRAG',
+        title: 'TOGETHER UNDER THE CRAG',
         folder: '/photos/04',
         photos: buildPhotos('/photos/04', actFourFiles),
     },
