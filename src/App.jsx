@@ -13,7 +13,10 @@ import { tracks } from './photoTracks.js';
 const DRAG_CLICK_THRESHOLD = 8;
 const LIGHTBOX_SWIPE_DISTANCE = 70;
 const LIGHTBOX_SWIPE_VELOCITY = 520;
+const TRACK_PREVIEW_PRELOAD_COUNT = 16;
+const TRACK_PREVIEW_PRELOAD_INTERVAL = 90;
 const preloadedLightboxImages = new Set();
+const preloadedPreviewImages = new Set();
 
 const preloadLightboxImage = (photo) => {
     if (!photo || preloadedLightboxImages.has(photo.src)) return;
@@ -22,6 +25,20 @@ const preloadLightboxImage = (photo) => {
     const image = new Image();
     image.decoding = 'async';
     image.src = photo.src;
+};
+
+const preloadPreviewImage = (photo) => {
+    if (!photo?.previewSrc || preloadedPreviewImages.has(photo.previewSrc)) return;
+
+    preloadedPreviewImages.add(photo.previewSrc);
+    const image = new Image();
+    image.decoding = 'async';
+    image.src = photo.previewSrc;
+};
+
+const canPreloadTrackPreviews = () => {
+    const connection = navigator.connection ?? navigator.mozConnection ?? navigator.webkitConnection;
+    return !connection?.saveData;
 };
 
 const useDragBounds = (viewportRef, trackRef) => {
@@ -334,6 +351,38 @@ export default function App() {
     const selectedPhotoContext = getSelectedPhotoContext(selectedPhoto);
     const selectedPhotos = selectedPhotoContext?.track.photos ?? (selectedPhoto ? [selectedPhoto] : []);
     const selectedPhotoIndex = selectedPhotoContext?.photoIndex ?? 0;
+
+    useEffect(() => {
+        if (!canPreloadTrackPreviews()) return undefined;
+
+        const previewPhotos = tracks.flatMap((track) => track.photos.slice(0, TRACK_PREVIEW_PRELOAD_COUNT));
+        let preloadIndex = 0;
+        let timeoutId;
+
+        const preloadNext = () => {
+            preloadPreviewImage(previewPhotos[preloadIndex]);
+            preloadIndex += 1;
+
+            if (preloadIndex < previewPhotos.length) {
+                timeoutId = window.setTimeout(preloadNext, TRACK_PREVIEW_PRELOAD_INTERVAL);
+            }
+        };
+
+        const startPreloading = () => {
+            timeoutId = window.setTimeout(preloadNext, TRACK_PREVIEW_PRELOAD_INTERVAL);
+        };
+
+        if (document.readyState === 'complete') {
+            startPreloading();
+        } else {
+            window.addEventListener('load', startPreloading, { once: true });
+        }
+
+        return () => {
+            window.removeEventListener('load', startPreloading);
+            window.clearTimeout(timeoutId);
+        };
+    }, []);
 
     const openPhoto = (photo) => {
         setHasLightboxNavigated(false);
