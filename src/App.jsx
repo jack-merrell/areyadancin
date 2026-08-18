@@ -103,7 +103,7 @@ const GalleryTrack = ({ track, onPhotoOpen }) => {
                                 src={photo.src}
                                 alt={photo.alt}
                                 draggable="false"
-                                loading={photo.index < 10 ? 'eager' : 'lazy'}
+                                loading={track.id === '01' && photo.index < 10 ? 'eager' : 'lazy'}
                                 width={photo.width}
                                 height={photo.height}
                             />

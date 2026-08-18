@@ -3,9 +3,9 @@
 :root {
     --gallery-red: #f51717;
     --gallery-paper: #f7f7f7;
-    --thumb-short: clamp(60px, 8.2vw, 67.5px);
-    --thumb-long: clamp(90px, 12.3vw, 101.25px);
-    --track-gap: clamp(5px, 0.75vw, 6.25px);
+    --thumb-short: clamp(90px, 12.3vw, 101.25px);
+    --thumb-long: clamp(135px, 18.45vw, 151.875px);
+    --track-gap: clamp(7.5px, 1.125vw, 9.375px);
 }
 
 body.lightbox-open {
@@ -67,6 +67,10 @@ body.lightbox-open {
 .gallery-track-section {
     position: relative;
     color: var(--gallery-red);
+}
+
+.gallery-track-section + .gallery-track-section {
+    margin-top: clamp(5.5rem, 14vw, 8.75rem);
 }
 
 .track-label {
