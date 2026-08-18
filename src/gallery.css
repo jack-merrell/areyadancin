@@ -243,8 +243,8 @@ body.lightbox-open {
     left: 0;
     z-index: 1001;
     display: flex;
-    justify-content: center;
-    padding: 0.85rem clamp(1rem, 4vw, 2.25rem) max(0.85rem, env(safe-area-inset-bottom));
+    justify-content: flex-start;
+    padding: 0.85rem 0 max(0.85rem, env(safe-area-inset-bottom));
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(20, 20, 19, 0.72);
     cursor: default;
@@ -253,7 +253,8 @@ body.lightbox-open {
 .lightbox-filmstrip-track {
     display: flex;
     align-items: center;
-    max-width: 100%;
+    width: 100%;
+    max-width: none;
     gap: 0.55rem;
     overflow-x: auto;
     overscroll-behavior-x: contain;
@@ -271,7 +272,7 @@ body.lightbox-open {
     height: clamp(3.15rem, 5.8vw, 4.15rem);
     padding: 0;
     border: 3px solid transparent;
-    border-radius: 6px;
+    border-radius: 0;
     background: rgba(255, 255, 255, 0.08);
     overflow: hidden;
     opacity: 0.58;
