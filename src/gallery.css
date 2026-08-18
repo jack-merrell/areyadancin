@@ -1,7 +1,7 @@
 @import '../style.css';
 
 :root {
-    --gallery-red: #f51717;
+    --gallery-red: #AF1A1A;
     --gallery-paper: #f7f7f7;
     --thumb-short: clamp(90px, 12.3vw, 101.25px);
     --thumb-long: clamp(135px, 18.45vw, 151.875px);
@@ -279,7 +279,7 @@ body.lightbox-open {
 }
 
 .lightbox-filmstrip-item.is-current {
-    border-color: #f01818;
+    border-color: var(--gallery-red);
     opacity: 1;
 }
 
