@@ -339,6 +339,7 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
                                 type="button"
                                 key={previewPhoto.id}
                                 ref={isCurrent ? activePreviewRef : null}
+                                style={{ aspectRatio: `${previewPhoto.width} / ${previewPhoto.height}` }}
                                 onClick={() => {
                                     if (isCurrent) return;
                                     onPhotoSelect(previewPhoto);
