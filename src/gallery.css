@@ -16,6 +16,19 @@ body.lightbox-open {
     min-height: 100vh;
 }
 
+@media (min-width: 851px) {
+    body {
+        background: var(--gallery-paper);
+    }
+
+    .thank-you-wrapper {
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
+
 .ink-filter-svg {
     position: absolute;
     width: 0;

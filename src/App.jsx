@@ -348,7 +348,7 @@ export default function App() {
 
     return (
         <LayoutGroup>
-            <div className="site-wrapper">
+            <div className="site-wrapper thank-you-wrapper">
                 <main className="content thank-you-content">
                     <section className="thank-you-gallery" aria-label="Wedding photo gallery">
                         <FestivalLockup />
