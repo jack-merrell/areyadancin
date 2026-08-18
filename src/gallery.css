@@ -149,7 +149,11 @@ body.lightbox-open {
     background: transparent;
     overflow: hidden;
     line-height: 0;
-    cursor: pointer;
+    cursor: grab;
+}
+
+.track-viewport:active .photo-tile {
+    cursor: grabbing;
 }
 
 .photo-tile--portrait {
@@ -212,8 +216,12 @@ body.lightbox-open {
     width: auto;
     height: auto;
     object-fit: contain;
-    cursor: default;
+    cursor: grab;
     box-shadow: 0 22px 72px rgba(0, 0, 0, 0.45);
+}
+
+.lightbox-track:active .lightbox-image {
+    cursor: grabbing;
 }
 
 .lightbox-close {
