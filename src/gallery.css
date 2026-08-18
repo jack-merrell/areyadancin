@@ -121,7 +121,7 @@ body.lightbox-open {
     align-items: center;
     gap: var(--track-gap);
     width: max-content;
-    padding: 0 clamp(1.45rem, 5.5vw, 3rem);
+    padding: 0 clamp(1.45rem, 5.5vw, 3rem) 0 0;
     will-change: transform;
 }
 
