@@ -158,8 +158,9 @@ const GalleryTrack = ({ track, trackIndex, onPhotoOpen }) => {
     );
 };
 
-const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, onPrevious, onNext }) => {
+const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, onPrevious, onNext, onPhotoSelect }) => {
     const lightboxRef = useRef(null);
+    const activePreviewRef = useRef(null);
     const isAnimatingRef = useRef(false);
     const imagePointerStartRef = useRef({ x: 0, y: 0 });
     const controls = useAnimationControls();
@@ -186,6 +187,14 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
         preloadLightboxImage(previousPhoto);
         preloadLightboxImage(nextPhoto);
     }, [nextPhoto, previousPhoto]);
+
+    useEffect(() => {
+        activePreviewRef.current?.scrollIntoView({
+            block: 'nearest',
+            inline: 'center',
+            behavior: reduceMotion ? 'auto' : 'smooth',
+        });
+    }, [photo.id, reduceMotion]);
 
     const navigateWithSlide = useCallback((direction, dragOffset = 0) => {
         if (isAnimatingRef.current) return;
@@ -319,6 +328,38 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
                     </div>
                 ))}
             </motion.div>
+            <div className="lightbox-filmstrip" onClick={(event) => event.stopPropagation()}>
+                <div className="lightbox-filmstrip-track" aria-label="Photo previews">
+                    {photos.map((previewPhoto, previewIndex) => {
+                        const isCurrent = previewPhoto.id === photo.id;
+
+                        return (
+                            <button
+                                className={`lightbox-filmstrip-item${isCurrent ? ' is-current' : ''}`}
+                                type="button"
+                                key={previewPhoto.id}
+                                ref={isCurrent ? activePreviewRef : null}
+                                onClick={() => {
+                                    if (isCurrent) return;
+                                    onPhotoSelect(previewPhoto);
+                                }}
+                                aria-label={`Show ${previewPhoto.alt}`}
+                                aria-current={isCurrent ? 'true' : undefined}
+                            >
+                                <img
+                                    src={previewPhoto.previewSrc}
+                                    alt=""
+                                    width={previewPhoto.width}
+                                    height={previewPhoto.height}
+                                    loading={Math.abs(previewIndex - photoIndex) < 8 ? 'eager' : 'lazy'}
+                                    decoding="async"
+                                    draggable="false"
+                                />
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
         </motion.div>
     );
 };
@@ -406,6 +447,11 @@ export default function App() {
         });
     };
 
+    const selectLightboxPhoto = (photo) => {
+        setHasLightboxNavigated(true);
+        setSelectedPhoto(photo);
+    };
+
     return (
         <LayoutGroup>
             <div className="site-wrapper thank-you-wrapper">
@@ -427,6 +473,7 @@ export default function App() {
                             onClose={closePhoto}
                             onPrevious={() => navigateSelectedPhoto(-1)}
                             onNext={() => navigateSelectedPhoto(1)}
+                            onPhotoSelect={selectLightboxPhoto}
                         />
                     )}
                 </AnimatePresence>

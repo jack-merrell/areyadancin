@@ -172,6 +172,7 @@ body.lightbox-open {
 
 .photo-lightbox {
     --lightbox-padding: clamp(1rem, 4vw, 2.5rem);
+    --lightbox-filmstrip-height: clamp(5.25rem, 12vw, 7rem);
     position: fixed;
     inset: 0;
     z-index: 1000;
@@ -202,12 +203,12 @@ body.lightbox-open {
     display: grid;
     flex: 0 0 33.333333%;
     place-items: center;
-    padding: var(--lightbox-padding);
+    padding: var(--lightbox-padding) var(--lightbox-padding) calc(var(--lightbox-padding) + var(--lightbox-filmstrip-height));
 }
 
 .lightbox-image {
     max-width: min(calc(100vw - (var(--lightbox-padding) * 2)), 1480px);
-    max-height: calc(100dvh - (var(--lightbox-padding) * 2));
+    max-height: calc(100dvh - (var(--lightbox-padding) * 2) - var(--lightbox-filmstrip-height));
     width: auto;
     height: auto;
     object-fit: contain;
@@ -235,9 +236,72 @@ body.lightbox-open {
     cursor: pointer;
 }
 
+.lightbox-filmstrip {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    display: flex;
+    justify-content: center;
+    padding: 0.85rem clamp(1rem, 4vw, 2.25rem) max(0.85rem, env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(20, 20, 19, 0.72);
+    cursor: default;
+}
+
+.lightbox-filmstrip-track {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    gap: 0.55rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+}
+
+.lightbox-filmstrip-track::-webkit-scrollbar {
+    display: none;
+}
+
+.lightbox-filmstrip-item {
+    flex: 0 0 auto;
+    display: block;
+    width: clamp(4.35rem, 8vw, 5.75rem);
+    height: clamp(3.15rem, 5.8vw, 4.15rem);
+    padding: 0;
+    border: 3px solid transparent;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    opacity: 0.58;
+    cursor: pointer;
+}
+
+.lightbox-filmstrip-item.is-current {
+    border-color: #f01818;
+    opacity: 1;
+}
+
+.lightbox-filmstrip-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
 @media (max-width: 850px) {
     .thank-you-gallery {
         min-height: 100svh;
+    }
+
+    .photo-lightbox {
+        --lightbox-filmstrip-height: 5.75rem;
+    }
+
+    .lightbox-filmstrip {
+        justify-content: flex-start;
     }
 }
 
