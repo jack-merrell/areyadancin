@@ -115,7 +115,7 @@ const GalleryTrack = ({ track, onPhotoOpen }) => {
     );
 };
 
-const PhotoLightbox = ({ photo, onClose }) => {
+const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
     const reduceMotion = useReducedMotion();
     const imageTransition = reduceMotion
         ? { duration: 0.01 }
@@ -128,7 +128,18 @@ const PhotoLightbox = ({ photo, onClose }) => {
 
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.key === 'Escape') onClose();
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                onClose();
+            }
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                onPrevious();
+            }
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                onNext();
+            }
         };
 
         document.body.classList.add('lightbox-open');
@@ -138,7 +149,7 @@ const PhotoLightbox = ({ photo, onClose }) => {
             document.body.classList.remove('lightbox-open');
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [onClose]);
+    }, [onClose, onNext, onPrevious]);
 
     return (
         <motion.div
@@ -204,8 +215,30 @@ const InkBleedFilter = () => (
     </svg>
 );
 
+const getSelectedPhotoContext = (selectedPhoto) => {
+    if (!selectedPhoto) return null;
+
+    for (const track of tracks) {
+        const photoIndex = track.photos.findIndex((photo) => photo.id === selectedPhoto.id);
+        if (photoIndex !== -1) return { track, photoIndex };
+    }
+
+    return null;
+};
+
 export default function App() {
     const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+    const navigateSelectedPhoto = (direction) => {
+        setSelectedPhoto((currentPhoto) => {
+            const selectedPhotoContext = getSelectedPhotoContext(currentPhoto);
+            if (!selectedPhotoContext) return currentPhoto;
+
+            const { track, photoIndex } = selectedPhotoContext;
+            const nextIndex = (photoIndex + direction + track.photos.length) % track.photos.length;
+            return track.photos[nextIndex];
+        });
+    };
 
     return (
         <LayoutGroup>
@@ -220,7 +253,12 @@ export default function App() {
                 </main>
                 <AnimatePresence>
                     {selectedPhoto && (
-                        <PhotoLightbox photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
+                        <PhotoLightbox
+                            photo={selectedPhoto}
+                            onClose={() => setSelectedPhoto(null)}
+                            onPrevious={() => navigateSelectedPhoto(-1)}
+                            onNext={() => navigateSelectedPhoto(1)}
+                        />
                     )}
                 </AnimatePresence>
             </div>
