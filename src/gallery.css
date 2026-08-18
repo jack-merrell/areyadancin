@@ -89,7 +89,7 @@ body.lightbox-open {
 }
 
 .track-label {
-    padding-left: clamp(1.45rem, 5.5vw, 3rem);
+    padding-left: clamp(0.9rem, 3.5vw, 2rem);
     margin-bottom: 1.2rem;
     text-transform: uppercase;
     color: var(--gallery-red);
