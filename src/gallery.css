@@ -53,15 +53,20 @@ body.lightbox-open {
 .festival-title-mark {
     display: grid;
     justify-items: center;
-    width: clamp(228px, 39vw, 332px);
-    padding: clamp(0.28rem, 0.65vw, 0.42rem) clamp(0.3rem, 0.85vw, 0.55rem);
+    box-sizing: border-box;
+    width: clamp(238px, 42vw, 360px);
+    padding: clamp(0.28rem, 0.65vw, 0.42rem) clamp(0.42rem, 1vw, 0.7rem);
     border: clamp(2px, 0.35vw, 3px) solid var(--gallery-red);
     font-family: 'PP Object Sans', sans-serif;
     font-weight: 800;
-    font-size: clamp(2.35rem, 6.55vw, 3.47rem);
+    font-size: clamp(2.15rem, 6vw, 3.18rem);
     line-height: 0.8;
     letter-spacing: 0;
     text-align: center;
+}
+
+.festival-title-mark span {
+    display: block;
 }
 
 .gallery-track-section {
