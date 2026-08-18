@@ -75,7 +75,7 @@ body.lightbox-open {
 }
 
 .gallery-track-section + .gallery-track-section {
-    margin-top: clamp(5.5rem, 14vw, 8.75rem);
+    margin-top: clamp(4.25rem, 10vw, 6.75rem);
 }
 
 .track-label {
