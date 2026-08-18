@@ -217,9 +217,9 @@ body.lightbox-open {
     z-index: 1001;
     display: grid;
     place-items: center;
-    width: 2.25rem;
+    min-width: 4.75rem;
     height: 2.25rem;
-    padding: 0;
+    padding: 0 0.85rem;
     border: 2px solid #fff;
     border-radius: 4px;
     background: transparent;
@@ -227,7 +227,6 @@ body.lightbox-open {
     font-family: 'PP Lettra Mono', monospace;
     font-size: 0.75rem;
     line-height: 1;
-    text-transform: uppercase;
     cursor: pointer;
 }
 

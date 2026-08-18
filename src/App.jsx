@@ -237,7 +237,7 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
             aria-label="Expanded wedding photo"
         >
             <button className="lightbox-close" type="button" onClick={onClose} aria-label="Close photo" title="Close photo">
-                X
+                CLOSE
             </button>
             <motion.div
                 className="lightbox-track"
