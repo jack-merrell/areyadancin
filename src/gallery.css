@@ -158,30 +158,48 @@ body.lightbox-open {
 }
 
 .photo-lightbox {
+    --lightbox-padding: clamp(1rem, 4vw, 2.5rem);
     position: fixed;
     inset: 0;
     z-index: 1000;
-    display: grid;
-    place-items: center;
-    padding: clamp(1rem, 4vw, 2.5rem);
+    display: block;
+    overflow: hidden;
+    padding: 0;
     background: rgba(20, 18, 16, 0.86);
     cursor: zoom-out;
 }
 
+.lightbox-track {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -100%;
+    display: flex;
+    width: 300%;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.lightbox-track:active {
+    cursor: grabbing;
+}
+
+.lightbox-slide {
+    display: grid;
+    flex: 0 0 33.333333%;
+    place-items: center;
+    padding: var(--lightbox-padding);
+}
+
 .lightbox-image {
-    max-width: min(94vw, 1480px);
-    max-height: 90vh;
+    max-width: min(calc(100vw - (var(--lightbox-padding) * 2)), 1480px);
+    max-height: calc(100dvh - (var(--lightbox-padding) * 2));
     width: auto;
     height: auto;
     object-fit: contain;
     cursor: default;
     box-shadow: 0 22px 72px rgba(0, 0, 0, 0.45);
-    touch-action: pan-y;
-    user-select: none;
-}
-
-.lightbox-image:active {
-    cursor: grabbing;
 }
 
 .lightbox-close {

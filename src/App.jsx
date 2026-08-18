@@ -3,9 +3,11 @@ import {
     AnimatePresence,
     LayoutGroup,
     motion,
+    useAnimationControls,
     useMotionValue,
     useReducedMotion,
 } from 'motion/react';
+import { flushSync } from 'react-dom';
 import { tracks } from './photoTracks.js';
 
 const DRAG_CLICK_THRESHOLD = 8;
@@ -117,8 +119,10 @@ const GalleryTrack = ({ track, onPhotoOpen }) => {
     );
 };
 
-const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
-    const x = useMotionValue(0);
+const PhotoLightbox = ({ photo, photos, photoIndex, onClose, onPrevious, onNext }) => {
+    const lightboxRef = useRef(null);
+    const isAnimatingRef = useRef(false);
+    const controls = useAnimationControls();
     const reduceMotion = useReducedMotion();
     const imageTransition = reduceMotion
         ? { duration: 0.01 }
@@ -128,10 +132,39 @@ const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
             damping: 32,
             mass: 0.8,
         };
+    const slideTransition = reduceMotion
+        ? { duration: 0.01 }
+        : {
+            type: 'spring',
+            stiffness: 260,
+            damping: 32,
+            mass: 0.9,
+        };
+    const previousPhoto = photos[(photoIndex - 1 + photos.length) % photos.length];
+    const nextPhoto = photos[(photoIndex + 1) % photos.length];
 
     useEffect(() => {
-        x.set(0);
-    }, [photo.id, x]);
+        controls.set({ x: 0 });
+    }, [controls, photo.id]);
+
+    const navigateWithSlide = async (direction) => {
+        if (isAnimatingRef.current) return;
+        isAnimatingRef.current = true;
+
+        const slideWidth = lightboxRef.current?.clientWidth ?? window.innerWidth;
+        const targetX = direction > 0 ? -slideWidth : slideWidth;
+
+        try {
+            await controls.start({ x: targetX, transition: slideTransition });
+            flushSync(() => {
+                if (direction > 0) onNext();
+                if (direction < 0) onPrevious();
+            });
+            controls.set({ x: 0 });
+        } finally {
+            isAnimatingRef.current = false;
+        }
+    };
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -141,11 +174,11 @@ const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
             }
             if (event.key === 'ArrowLeft') {
                 event.preventDefault();
-                onPrevious();
+                navigateWithSlide(-1);
             }
             if (event.key === 'ArrowRight') {
                 event.preventDefault();
-                onNext();
+                navigateWithSlide(1);
             }
         };
 
@@ -156,20 +189,29 @@ const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
             document.body.classList.remove('lightbox-open');
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [onClose, onNext, onPrevious]);
+    }, [navigateWithSlide, onClose]);
 
     const handleDragEnd = (_, info) => {
         const swipeLeft = info.offset.x < -LIGHTBOX_SWIPE_DISTANCE || info.velocity.x < -LIGHTBOX_SWIPE_VELOCITY;
         const swipeRight = info.offset.x > LIGHTBOX_SWIPE_DISTANCE || info.velocity.x > LIGHTBOX_SWIPE_VELOCITY;
 
-        x.set(0);
-        if (swipeLeft) onNext();
-        if (swipeRight) onPrevious();
+        if (swipeLeft) {
+            navigateWithSlide(1);
+            return;
+        }
+
+        if (swipeRight) {
+            navigateWithSlide(-1);
+            return;
+        }
+
+        controls.start({ x: 0, transition: slideTransition });
     };
 
     return (
         <motion.div
             className="photo-lightbox"
+            ref={lightboxRef}
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
@@ -182,22 +224,34 @@ const PhotoLightbox = ({ photo, onClose, onPrevious, onNext }) => {
             <button className="lightbox-close" type="button" onClick={onClose} aria-label="Close photo" title="Close photo">
                 X
             </button>
-            <motion.img
-                className="lightbox-image"
-                layoutId={`photo-${photo.id}`}
-                style={{ x }}
-                src={photo.src}
-                alt={photo.alt}
-                width={photo.width}
-                height={photo.height}
+            <motion.div
+                className="lightbox-track"
+                animate={controls}
                 drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={reduceMotion ? 0.08 : 0.22}
                 dragMomentum={false}
                 onDragEnd={handleDragEnd}
-                onClick={(event) => event.stopPropagation()}
-                transition={imageTransition}
-            />
+            >
+                {[
+                    { photo: previousPhoto, position: 'previous' },
+                    { photo, position: 'current' },
+                    { photo: nextPhoto, position: 'next' },
+                ].map((slide) => (
+                    <div className="lightbox-slide" key={`${slide.position}-${slide.photo.id}`}>
+                        <motion.img
+                            className="lightbox-image"
+                            layoutId={slide.position === 'current' ? `photo-${slide.photo.id}` : undefined}
+                            src={slide.photo.src}
+                            alt={slide.photo.alt}
+                            width={slide.photo.width}
+                            height={slide.photo.height}
+                            draggable="false"
+                            loading={slide.position === 'current' ? 'eager' : 'lazy'}
+                            onClick={(event) => event.stopPropagation()}
+                            transition={imageTransition}
+                        />
+                    </div>
+                ))}
+            </motion.div>
         </motion.div>
     );
 };
@@ -250,6 +304,9 @@ const getSelectedPhotoContext = (selectedPhoto) => {
 
 export default function App() {
     const [selectedPhoto, setSelectedPhoto] = useState(null);
+    const selectedPhotoContext = getSelectedPhotoContext(selectedPhoto);
+    const selectedPhotos = selectedPhotoContext?.track.photos ?? (selectedPhoto ? [selectedPhoto] : []);
+    const selectedPhotoIndex = selectedPhotoContext?.photoIndex ?? 0;
 
     const navigateSelectedPhoto = (direction) => {
         setSelectedPhoto((currentPhoto) => {
@@ -277,6 +334,8 @@ export default function App() {
                     {selectedPhoto && (
                         <PhotoLightbox
                             photo={selectedPhoto}
+                            photos={selectedPhotos}
+                            photoIndex={selectedPhotoIndex}
                             onClose={() => setSelectedPhoto(null)}
                             onPrevious={() => navigateSelectedPhoto(-1)}
                             onNext={() => navigateSelectedPhoto(1)}
