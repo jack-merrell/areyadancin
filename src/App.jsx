@@ -119,7 +119,7 @@ const GalleryTrack = ({ track, onPhotoOpen }) => {
     );
 };
 
-const PhotoLightbox = ({ photo, photos, photoIndex, onClose, onPrevious, onNext }) => {
+const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, onPrevious, onNext }) => {
     const lightboxRef = useRef(null);
     const isAnimatingRef = useRef(false);
     const controls = useAnimationControls();
@@ -239,7 +239,7 @@ const PhotoLightbox = ({ photo, photos, photoIndex, onClose, onPrevious, onNext 
                     <div className="lightbox-slide" key={`${slide.position}-${slide.photo.id}`}>
                         <motion.img
                             className="lightbox-image"
-                            layoutId={slide.position === 'current' ? `photo-${slide.photo.id}` : undefined}
+                            layoutId={useSharedLayout && slide.position === 'current' ? `photo-${slide.photo.id}` : undefined}
                             src={slide.photo.src}
                             alt={slide.photo.alt}
                             width={slide.photo.width}
@@ -304,11 +304,23 @@ const getSelectedPhotoContext = (selectedPhoto) => {
 
 export default function App() {
     const [selectedPhoto, setSelectedPhoto] = useState(null);
+    const [hasLightboxNavigated, setHasLightboxNavigated] = useState(false);
     const selectedPhotoContext = getSelectedPhotoContext(selectedPhoto);
     const selectedPhotos = selectedPhotoContext?.track.photos ?? (selectedPhoto ? [selectedPhoto] : []);
     const selectedPhotoIndex = selectedPhotoContext?.photoIndex ?? 0;
 
+    const openPhoto = (photo) => {
+        setHasLightboxNavigated(false);
+        setSelectedPhoto(photo);
+    };
+
+    const closePhoto = () => {
+        setSelectedPhoto(null);
+        setHasLightboxNavigated(false);
+    };
+
     const navigateSelectedPhoto = (direction) => {
+        setHasLightboxNavigated(true);
         setSelectedPhoto((currentPhoto) => {
             const selectedPhotoContext = getSelectedPhotoContext(currentPhoto);
             if (!selectedPhotoContext) return currentPhoto;
@@ -326,7 +338,7 @@ export default function App() {
                     <section className="thank-you-gallery" aria-label="Wedding photo gallery">
                         <FestivalLockup />
                         {tracks.map((track) => (
-                            <GalleryTrack key={track.id} track={track} onPhotoOpen={setSelectedPhoto} />
+                            <GalleryTrack key={track.id} track={track} onPhotoOpen={openPhoto} />
                         ))}
                     </section>
                 </main>
@@ -336,7 +348,8 @@ export default function App() {
                             photo={selectedPhoto}
                             photos={selectedPhotos}
                             photoIndex={selectedPhotoIndex}
-                            onClose={() => setSelectedPhoto(null)}
+                            useSharedLayout={!hasLightboxNavigated}
+                            onClose={closePhoto}
                             onPrevious={() => navigateSelectedPhoto(-1)}
                             onNext={() => navigateSelectedPhoto(1)}
                         />
