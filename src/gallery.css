@@ -90,14 +90,14 @@ body.lightbox-open {
 
 .track-label {
     padding-left: clamp(1.45rem, 5.5vw, 3rem);
-    margin-bottom: 1.12rem;
+    margin-bottom: 1.2rem;
     text-transform: uppercase;
     color: var(--gallery-red);
 }
 
 .track-act {
     font-family: 'PP Lettra Mono', monospace;
-    font-size: 0.75rem;
+    font-size: clamp(0.82rem, 1.65vw, 0.9rem);
     line-height: 1;
     letter-spacing: -0.08em;
     font-feature-settings: "swsh" 1, "onum" 1, "pnum" 1;
@@ -106,7 +106,7 @@ body.lightbox-open {
 .track-label h2 {
     margin: 0;
     font-family: 'PP Object Sans', sans-serif;
-    font-size: clamp(1rem, 2.3vw, 1.125rem);
+    font-size: clamp(1.15rem, 2.75vw, 1.35rem);
     font-weight: 800;
     font-style: italic;
     line-height: 0.95;
