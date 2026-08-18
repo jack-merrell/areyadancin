@@ -145,10 +145,9 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
     const slideTransition = useMemo(() => (reduceMotion
         ? { duration: 0.01 }
         : {
-            type: 'spring',
-            stiffness: 260,
-            damping: 32,
-            mass: 0.9,
+            type: 'tween',
+            duration: 0.32,
+            ease: [0.22, 1, 0.36, 1],
         }), [reduceMotion]);
     const previousPhoto = photos[(photoIndex - 1 + photos.length) % photos.length];
     const nextPhoto = photos[(photoIndex + 1) % photos.length];
@@ -170,12 +169,13 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
         const slideWidth = lightboxRef.current?.clientWidth ?? window.innerWidth;
         const startX = direction > 0 ? slideWidth + dragOffset : -slideWidth + dragOffset;
 
+        controls.set({ x: startX });
+
         flushSync(() => {
             if (direction > 0) onNext();
             if (direction < 0) onPrevious();
         });
 
-        controls.set({ x: startX });
         controls.start({ x: 0, transition: slideTransition }).finally(() => {
             isAnimatingRef.current = false;
         });
