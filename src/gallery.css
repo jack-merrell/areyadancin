@@ -29,11 +29,9 @@ body.lightbox-open {
     }
 }
 
-.ink-filter-svg {
-    position: absolute;
-    width: 0;
-    height: 0;
-    overflow: hidden;
+.thank-you-wrapper::after {
+    background-size: 420px auto;
+    opacity: 0.14;
 }
 
 .thank-you-content {
@@ -54,7 +52,6 @@ body.lightbox-open {
     gap: 0.25rem;
     margin-bottom: clamp(4.75rem, 12vw, 7rem);
     color: var(--gallery-red);
-    filter: url(#ink-bleed);
 }
 
 .festival-couple-mark {
@@ -96,7 +93,6 @@ body.lightbox-open {
     margin-bottom: 1.12rem;
     text-transform: uppercase;
     color: var(--gallery-red);
-    filter: url(#ink-bleed);
 }
 
 .track-act {
@@ -149,7 +145,6 @@ body.lightbox-open {
     overflow: hidden;
     line-height: 0;
     cursor: pointer;
-    filter: url(#ink-bleed);
 }
 
 .photo-tile--portrait {

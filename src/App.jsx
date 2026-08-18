@@ -282,30 +282,6 @@ const FestivalLockup = () => (
     </header>
 );
 
-const InkBleedFilter = () => (
-    <svg className="ink-filter-svg" aria-hidden="true" focusable="false">
-        <filter id="ink-bleed">
-            <feTurbulence
-                id="ink-bleed-turbulence"
-                type="fractalNoise"
-                baseFrequency="0.02"
-                numOctaves="4"
-                result="noise"
-            />
-            <feDisplacementMap
-                id="ink-bleed-displacement"
-                in="SourceGraphic"
-                in2="noise"
-                scale="1.2"
-                xChannelSelector="R"
-                yChannelSelector="G"
-                result="displacement"
-            />
-            <feGaussianBlur id="ink-bleed-blur" in="displacement" stdDeviation="0.4" />
-        </filter>
-    </svg>
-);
-
 const getSelectedPhotoContext = (selectedPhoto) => {
     if (!selectedPhoto) return null;
 
@@ -371,7 +347,6 @@ export default function App() {
                     )}
                 </AnimatePresence>
             </div>
-            <InkBleedFilter />
         </LayoutGroup>
     );
 }
