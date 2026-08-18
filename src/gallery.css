@@ -125,6 +125,11 @@ body.lightbox-open {
     cursor: grabbing;
 }
 
+.track-settle {
+    width: max-content;
+    will-change: transform, opacity;
+}
+
 .photo-track {
     display: flex;
     align-items: center;

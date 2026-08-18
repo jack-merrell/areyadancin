@@ -52,7 +52,7 @@ const useDragBounds = (viewportRef, trackRef) => {
     return bounds;
 };
 
-const GalleryTrack = ({ track, onPhotoOpen }) => {
+const GalleryTrack = ({ track, trackIndex, onPhotoOpen }) => {
     const viewportRef = useRef(null);
     const trackRef = useRef(null);
     const pointerStartRef = useRef({ x: 0, y: 0 });
@@ -82,48 +82,59 @@ const GalleryTrack = ({ track, onPhotoOpen }) => {
 
             <div className="track-viewport" ref={viewportRef}>
                 <motion.div
-                    className="photo-track"
-                    ref={trackRef}
-                    style={{ x }}
-                    drag="x"
-                    dragConstraints={bounds}
-                    dragElastic={0.06}
-                    dragMomentum={!reduceMotion}
-                    dragTransition={dragTransition}
+                    className="track-settle"
+                    initial={reduceMotion ? false : { x: 72, opacity: 0.01 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{
+                        duration: reduceMotion ? 0.01 : 1,
+                        delay: reduceMotion ? 0 : 0.12 + (trackIndex * 0.08),
+                        ease: [0.16, 1, 0.3, 1],
+                    }}
                 >
-                    {track.photos.map((photo) => (
-                        <button
-                            className={`photo-tile photo-tile--${photo.orientation}`}
-                            type="button"
-                            key={photo.id}
-                            onPointerDown={(event) => {
-                                pointerStartRef.current = {
-                                    x: event.clientX,
-                                    y: event.clientY,
-                                };
-                            }}
-                            onClick={(event) => {
-                                const distance = Math.hypot(
-                                    event.clientX - pointerStartRef.current.x,
-                                    event.clientY - pointerStartRef.current.y,
-                                );
-                                if (distance > DRAG_CLICK_THRESHOLD) return;
-                                onPhotoOpen(photo);
-                            }}
-                            aria-label={`Open ${photo.alt}`}
-                        >
-                            <motion.img
-                                layoutId={`photo-${photo.id}`}
-                                src={photo.previewSrc}
-                                alt={photo.alt}
-                                draggable="false"
-                                loading={track.id === '01' && photo.index < 10 ? 'eager' : 'lazy'}
-                                decoding="async"
-                                width={photo.width}
-                                height={photo.height}
-                            />
-                        </button>
-                    ))}
+                    <motion.div
+                        className="photo-track"
+                        ref={trackRef}
+                        style={{ x }}
+                        drag="x"
+                        dragConstraints={bounds}
+                        dragElastic={0.06}
+                        dragMomentum={!reduceMotion}
+                        dragTransition={dragTransition}
+                    >
+                        {track.photos.map((photo) => (
+                            <button
+                                className={`photo-tile photo-tile--${photo.orientation}`}
+                                type="button"
+                                key={photo.id}
+                                onPointerDown={(event) => {
+                                    pointerStartRef.current = {
+                                        x: event.clientX,
+                                        y: event.clientY,
+                                    };
+                                }}
+                                onClick={(event) => {
+                                    const distance = Math.hypot(
+                                        event.clientX - pointerStartRef.current.x,
+                                        event.clientY - pointerStartRef.current.y,
+                                    );
+                                    if (distance > DRAG_CLICK_THRESHOLD) return;
+                                    onPhotoOpen(photo);
+                                }}
+                                aria-label={`Open ${photo.alt}`}
+                            >
+                                <motion.img
+                                    layoutId={`photo-${photo.id}`}
+                                    src={photo.previewSrc}
+                                    alt={photo.alt}
+                                    draggable="false"
+                                    loading={track.id === '01' && photo.index < 10 ? 'eager' : 'lazy'}
+                                    decoding="async"
+                                    width={photo.width}
+                                    height={photo.height}
+                                />
+                            </button>
+                        ))}
+                    </motion.div>
                 </motion.div>
             </div>
         </section>
@@ -352,8 +363,8 @@ export default function App() {
                 <main className="content thank-you-content">
                     <section className="thank-you-gallery" aria-label="Wedding photo gallery">
                         <FestivalLockup />
-                        {tracks.map((track) => (
-                            <GalleryTrack key={track.id} track={track} onPhotoOpen={openPhoto} />
+                        {tracks.map((track, trackIndex) => (
+                            <GalleryTrack key={track.id} track={track} trackIndex={trackIndex} onPhotoOpen={openPhoto} />
                         ))}
                     </section>
                 </main>
