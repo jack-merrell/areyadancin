@@ -132,6 +132,7 @@ const GalleryTrack = ({ track, onPhotoOpen }) => {
 const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, onPrevious, onNext }) => {
     const lightboxRef = useRef(null);
     const isAnimatingRef = useRef(false);
+    const imagePointerStartRef = useRef({ x: 0, y: 0 });
     const controls = useAnimationControls();
     const reduceMotion = useReducedMotion();
     const imageTransition = useMemo(() => (reduceMotion
@@ -149,8 +150,8 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
             duration: 0.32,
             ease: [0.22, 1, 0.36, 1],
         }), [reduceMotion]);
-    const previousPhoto = photos[(photoIndex - 1 + photos.length) % photos.length];
-    const nextPhoto = photos[(photoIndex + 1) % photos.length];
+    const previousPhoto = photos[photoIndex - 1] ?? null;
+    const nextPhoto = photos[photoIndex + 1] ?? null;
 
     useEffect(() => {
         preloadLightboxImage(previousPhoto);
@@ -158,15 +159,21 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
     }, [nextPhoto, previousPhoto]);
 
     const navigateWithSlide = useCallback((direction, dragOffset = 0) => {
-        if (photos.length < 2) {
-            controls.start({ x: 0, transition: slideTransition });
-            return;
-        }
-
         if (isAnimatingRef.current) return;
         isAnimatingRef.current = true;
 
         const slideWidth = lightboxRef.current?.clientWidth ?? window.innerWidth;
+        const destinationIndex = photoIndex + direction;
+
+        if (destinationIndex < 0 || destinationIndex >= photos.length) {
+            const exitX = direction > 0 ? -slideWidth : slideWidth;
+            controls.start({ x: exitX, transition: slideTransition }).finally(() => {
+                isAnimatingRef.current = false;
+                onClose();
+            });
+            return;
+        }
+
         const startX = direction > 0 ? slideWidth + dragOffset : -slideWidth + dragOffset;
 
         controls.set({ x: startX });
@@ -179,7 +186,7 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
         controls.start({ x: 0, transition: slideTransition }).finally(() => {
             isAnimatingRef.current = false;
         });
-    }, [controls, onNext, onPrevious, photos.length, slideTransition]);
+    }, [controls, onClose, onNext, onPrevious, photoIndex, photos.length, slideTransition]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -251,19 +258,35 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
                     { photo, position: 'current' },
                     { photo: nextPhoto, position: 'next' },
                 ].map((slide) => (
-                    <div className="lightbox-slide" key={`${slide.position}-${slide.photo.id}`}>
-                        <motion.img
-                            className="lightbox-image"
-                            layoutId={useSharedLayout && slide.position === 'current' ? `photo-${slide.photo.id}` : undefined}
-                            src={slide.photo.src}
-                            alt={slide.photo.alt}
-                            width={slide.photo.width}
-                            height={slide.photo.height}
-                            draggable="false"
-                            loading="eager"
-                            onClick={(event) => event.stopPropagation()}
-                            transition={imageTransition}
-                        />
+                    <div className="lightbox-slide" key={`${slide.position}-${slide.photo?.id ?? 'edge'}`}>
+                        {slide.photo && (
+                            <motion.img
+                                className="lightbox-image"
+                                layoutId={useSharedLayout && slide.position === 'current' ? `photo-${slide.photo.id}` : undefined}
+                                src={slide.photo.src}
+                                alt={slide.photo.alt}
+                                width={slide.photo.width}
+                                height={slide.photo.height}
+                                draggable="false"
+                                loading="eager"
+                                onPointerDown={(event) => {
+                                    imagePointerStartRef.current = {
+                                        x: event.clientX,
+                                        y: event.clientY,
+                                    };
+                                }}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    const distance = Math.hypot(
+                                        event.clientX - imagePointerStartRef.current.x,
+                                        event.clientY - imagePointerStartRef.current.y,
+                                    );
+                                    if (distance > DRAG_CLICK_THRESHOLD) return;
+                                    navigateWithSlide(1);
+                                }}
+                                transition={imageTransition}
+                            />
+                        )}
                     </div>
                 ))}
             </motion.div>
