@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
     AnimatePresence,
     LayoutGroup,
@@ -134,52 +134,52 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
     const isAnimatingRef = useRef(false);
     const controls = useAnimationControls();
     const reduceMotion = useReducedMotion();
-    const imageTransition = reduceMotion
+    const imageTransition = useMemo(() => (reduceMotion
         ? { duration: 0.01 }
         : {
             type: 'spring',
             stiffness: 280,
             damping: 32,
             mass: 0.8,
-        };
-    const slideTransition = reduceMotion
+        }), [reduceMotion]);
+    const slideTransition = useMemo(() => (reduceMotion
         ? { duration: 0.01 }
         : {
             type: 'spring',
             stiffness: 260,
             damping: 32,
             mass: 0.9,
-        };
+        }), [reduceMotion]);
     const previousPhoto = photos[(photoIndex - 1 + photos.length) % photos.length];
     const nextPhoto = photos[(photoIndex + 1) % photos.length];
-
-    useEffect(() => {
-        controls.set({ x: 0 });
-    }, [controls, photo.id]);
 
     useEffect(() => {
         preloadLightboxImage(previousPhoto);
         preloadLightboxImage(nextPhoto);
     }, [nextPhoto, previousPhoto]);
 
-    const navigateWithSlide = async (direction) => {
+    const navigateWithSlide = useCallback((direction, dragOffset = 0) => {
+        if (photos.length < 2) {
+            controls.start({ x: 0, transition: slideTransition });
+            return;
+        }
+
         if (isAnimatingRef.current) return;
         isAnimatingRef.current = true;
 
         const slideWidth = lightboxRef.current?.clientWidth ?? window.innerWidth;
-        const targetX = direction > 0 ? -slideWidth : slideWidth;
+        const startX = direction > 0 ? slideWidth + dragOffset : -slideWidth + dragOffset;
 
-        try {
-            await controls.start({ x: targetX, transition: slideTransition });
-            flushSync(() => {
-                if (direction > 0) onNext();
-                if (direction < 0) onPrevious();
-            });
-            controls.set({ x: 0 });
-        } finally {
+        flushSync(() => {
+            if (direction > 0) onNext();
+            if (direction < 0) onPrevious();
+        });
+
+        controls.set({ x: startX });
+        controls.start({ x: 0, transition: slideTransition }).finally(() => {
             isAnimatingRef.current = false;
-        }
-    };
+        });
+    }, [controls, onNext, onPrevious, photos.length, slideTransition]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -211,12 +211,12 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
         const swipeRight = info.offset.x > LIGHTBOX_SWIPE_DISTANCE || info.velocity.x > LIGHTBOX_SWIPE_VELOCITY;
 
         if (swipeLeft) {
-            navigateWithSlide(1);
+            navigateWithSlide(1, info.offset.x);
             return;
         }
 
         if (swipeRight) {
-            navigateWithSlide(-1);
+            navigateWithSlide(-1, info.offset.x);
             return;
         }
 
