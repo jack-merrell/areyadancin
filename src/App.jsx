@@ -13,6 +13,16 @@ import { tracks } from './photoTracks.js';
 const DRAG_CLICK_THRESHOLD = 8;
 const LIGHTBOX_SWIPE_DISTANCE = 70;
 const LIGHTBOX_SWIPE_VELOCITY = 520;
+const preloadedLightboxImages = new Set();
+
+const preloadLightboxImage = (photo) => {
+    if (!photo || preloadedLightboxImages.has(photo.src)) return;
+
+    preloadedLightboxImages.add(photo.src);
+    const image = new Image();
+    image.decoding = 'async';
+    image.src = photo.src;
+};
 
 const useDragBounds = (viewportRef, trackRef) => {
     const [bounds, setBounds] = useState({ left: 0, right: 0 });
@@ -147,6 +157,11 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
         controls.set({ x: 0 });
     }, [controls, photo.id]);
 
+    useEffect(() => {
+        preloadLightboxImage(previousPhoto);
+        preloadLightboxImage(nextPhoto);
+    }, [nextPhoto, previousPhoto]);
+
     const navigateWithSlide = async (direction) => {
         if (isAnimatingRef.current) return;
         isAnimatingRef.current = true;
@@ -245,7 +260,7 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
                             width={slide.photo.width}
                             height={slide.photo.height}
                             draggable="false"
-                            loading={slide.position === 'current' ? 'eager' : 'lazy'}
+                            loading="eager"
                             onClick={(event) => event.stopPropagation()}
                             transition={imageTransition}
                         />
