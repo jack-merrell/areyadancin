@@ -18,16 +18,19 @@ const TRACK_PREVIEW_PRELOAD_INTERVAL = 90;
 const SHARE_ORIGIN = 'https://areyadancin.com';
 const preloadedLightboxImages = new Set();
 const preloadedPreviewImages = new Set();
-const coupleMarkLetters = [
-    { character: 'L', tone: 'red' },
-    { character: 'O', tone: 'red' },
-    { character: 'U', tone: 'red' },
-    { character: '&', tone: 'yellow', compact: true },
-    { character: 'J', tone: 'blue' },
-    { character: 'A', tone: 'blue' },
-    { character: 'C', tone: 'blue' },
-    { character: 'K', tone: 'blue' },
-];
+const coupleMarkPaths = [
+    'L',
+    'O',
+    'U',
+    'ampersand',
+    'J',
+    'A',
+    'C',
+    'K',
+].map((id) => ({
+    id,
+    href: `/lou-jack.svg#${id}`,
+}));
 
 const preloadLightboxImage = (photo) => {
     if (!photo || preloadedLightboxImages.has(photo.src)) return;
@@ -480,11 +483,21 @@ const CoupleMark = () => {
     const reduceMotion = useReducedMotion();
 
     return (
-        <motion.div className="festival-couple-mark" role="img" aria-label="Lou & Jack">
-            {coupleMarkLetters.map((letter, index) => (
-                <motion.span
-                    className={`festival-couple-letter festival-couple-letter-${letter.tone}${letter.compact ? ' is-compact' : ''}`}
-                    key={`${letter.character}-${index}`}
+        <motion.svg
+            className="festival-couple-mark"
+            role="img"
+            aria-label="Lou & Jack"
+            preserveAspectRatio="none"
+            overflow="visible"
+            viewBox="0 0 201 27.2187"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            {coupleMarkPaths.map((letter, index) => (
+                <motion.use
+                    className="festival-couple-path"
+                    key={letter.id}
+                    href={letter.href}
                     aria-hidden="true"
                     initial={reduceMotion ? false : { scale: 0.35, rotate: -16, y: 8 }}
                     animate={reduceMotion ? { scale: 1, rotate: 0, y: 0 } : {
@@ -497,11 +510,9 @@ const CoupleMark = () => {
                         delay: index * 0.075,
                         ease: [0.2, 0.9, 0.2, 1],
                     }}
-                >
-                    {letter.character}
-                </motion.span>
+                />
             ))}
-        </motion.div>
+        </motion.svg>
     );
 };
 
