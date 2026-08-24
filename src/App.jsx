@@ -15,8 +15,19 @@ const LIGHTBOX_SWIPE_DISTANCE = 70;
 const LIGHTBOX_SWIPE_VELOCITY = 520;
 const TRACK_PREVIEW_PRELOAD_COUNT = 16;
 const TRACK_PREVIEW_PRELOAD_INTERVAL = 90;
+const SHARE_ORIGIN = 'https://areyadancin.com';
 const preloadedLightboxImages = new Set();
 const preloadedPreviewImages = new Set();
+const coupleMarkLetters = [
+    { character: 'L', tone: 'red' },
+    { character: 'O', tone: 'red' },
+    { character: 'U', tone: 'red' },
+    { character: '&', tone: 'yellow', compact: true },
+    { character: 'J', tone: 'blue' },
+    { character: 'A', tone: 'blue' },
+    { character: 'C', tone: 'blue' },
+    { character: 'K', tone: 'blue' },
+];
 
 const preloadLightboxImage = (photo) => {
     if (!photo || preloadedLightboxImages.has(photo.src)) return;
@@ -87,6 +98,31 @@ const clearPhotoHash = () => {
 
     const url = `${window.location.pathname}${window.location.search}`;
     window.history.replaceState(null, '', url);
+};
+
+const getPhotoShareUrl = (photo) => {
+    const origin = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? SHARE_ORIGIN
+        : window.location.origin;
+
+    return `${origin}${window.location.pathname}${window.location.search}#${photo.hashPath}`;
+};
+
+const copyTextToClipboard = async (text) => {
+    if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return;
+    }
+
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.setAttribute('readonly', '');
+    textArea.style.position = 'fixed';
+    textArea.style.top = '-1000px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
 };
 
 const useDragBounds = (viewportRef, trackRef) => {
@@ -211,6 +247,8 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
     const activePreviewRef = useRef(null);
     const isAnimatingRef = useRef(false);
     const imagePointerStartRef = useRef({ x: 0, y: 0 });
+    const shareTimeoutRef = useRef(null);
+    const [shareLabel, setShareLabel] = useState('SHARE');
     const controls = useAnimationControls();
     const reduceMotion = useReducedMotion();
     const imageTransition = useMemo(() => (reduceMotion
@@ -235,6 +273,14 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
         preloadLightboxImage(previousPhoto);
         preloadLightboxImage(nextPhoto);
     }, [nextPhoto, previousPhoto]);
+
+    useEffect(() => {
+        setShareLabel('SHARE');
+    }, [photo.id]);
+
+    useEffect(() => () => {
+        if (shareTimeoutRef.current) window.clearTimeout(shareTimeoutRef.current);
+    }, []);
 
     useEffect(() => {
         activePreviewRef.current?.scrollIntoView({
@@ -316,6 +362,18 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
         controls.start({ x: 0, transition: slideTransition });
     };
 
+    const handleShareClick = async (event) => {
+        event.stopPropagation();
+
+        await copyTextToClipboard(getPhotoShareUrl(photo));
+        setShareLabel('COPIED');
+
+        if (shareTimeoutRef.current) window.clearTimeout(shareTimeoutRef.current);
+        shareTimeoutRef.current = window.setTimeout(() => {
+            setShareLabel('SHARE');
+        }, 1400);
+    };
+
     return (
         <motion.div
             className="photo-lightbox"
@@ -329,9 +387,14 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
             aria-modal="true"
             aria-label="Expanded wedding photo"
         >
-            <button className="lightbox-close" type="button" onClick={onClose} aria-label="Close photo" title="Close photo">
-                CLOSE
-            </button>
+            <div className="lightbox-actions" onClick={(event) => event.stopPropagation()}>
+                <button className="lightbox-action lightbox-share" type="button" onClick={handleShareClick} aria-label="Copy photo link" title="Copy photo link">
+                    {shareLabel}
+                </button>
+                <button className="lightbox-action lightbox-close" type="button" onClick={onClose} aria-label="Close photo" title="Close photo">
+                    CLOSE
+                </button>
+            </div>
             <motion.div
                 className="lightbox-track"
                 animate={controls}
@@ -413,9 +476,38 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
     );
 };
 
+const CoupleMark = () => {
+    const reduceMotion = useReducedMotion();
+
+    return (
+        <motion.div className="festival-couple-mark" role="img" aria-label="Lou & Jack">
+            {coupleMarkLetters.map((letter, index) => (
+                <motion.span
+                    className={`festival-couple-letter festival-couple-letter-${letter.tone}${letter.compact ? ' is-compact' : ''}`}
+                    key={`${letter.character}-${index}`}
+                    aria-hidden="true"
+                    initial={reduceMotion ? false : { scale: 0.35, rotate: -16, y: 8 }}
+                    animate={reduceMotion ? { scale: 1, rotate: 0, y: 0 } : {
+                        scale: [0.35, 1.45, 0.88, 1.12, 1],
+                        rotate: [-16, 14, -8, 4, 0],
+                        y: [8, -8, 3, -1, 0],
+                    }}
+                    transition={reduceMotion ? { duration: 0.01 } : {
+                        duration: 0.82,
+                        delay: index * 0.075,
+                        ease: [0.2, 0.9, 0.2, 1],
+                    }}
+                >
+                    {letter.character}
+                </motion.span>
+            ))}
+        </motion.div>
+    );
+};
+
 const FestivalLockup = () => (
     <header className="festival-lockup" aria-label="Yorkshire Wedding Festival">
-        <img className="festival-couple-mark" src="/lou-jack.svg" alt="Lou & Jack" />
+        <CoupleMark />
         <div className="festival-title-mark" aria-hidden="true">
             <span>YORKSHIRE</span>
             <span>WEDDING</span>

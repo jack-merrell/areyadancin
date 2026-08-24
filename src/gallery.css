@@ -2,6 +2,8 @@
 
 :root {
     --gallery-red: #F51717;
+    --gallery-yellow: #FBCD1A;
+    --gallery-blue: #2858BD;
     --gallery-paper: #f7f7f7;
     --thumb-short: clamp(90px, 12.3vw, 101.25px);
     --thumb-long: clamp(135px, 18.45vw, 151.875px);
@@ -56,8 +58,40 @@ body.lightbox-open {
 
 .festival-couple-mark {
     width: clamp(128px, 23vw, 201px);
-    height: auto;
-    display: block;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.02em;
+    font-family: 'PP Object Sans', sans-serif;
+    font-size: clamp(1.92rem, 5vw, 3.02rem);
+    font-weight: 800;
+    line-height: 0.8;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    transform-origin: center bottom;
+}
+
+.festival-couple-letter {
+    display: inline-block;
+    transform-origin: center 70%;
+    will-change: transform;
+}
+
+.festival-couple-letter-red {
+    color: var(--gallery-red);
+}
+
+.festival-couple-letter-yellow {
+    color: var(--gallery-yellow);
+}
+
+.festival-couple-letter-blue {
+    color: var(--gallery-blue);
+}
+
+.festival-couple-letter.is-compact {
+    font-size: 0.8em;
+    margin: 0 0.02em 0 0.03em;
 }
 
 .festival-title-mark {
@@ -224,11 +258,17 @@ body.lightbox-open {
     cursor: grabbing;
 }
 
-.lightbox-close {
+.lightbox-actions {
     position: fixed;
     top: clamp(1rem, 3vw, 1.5rem);
     right: clamp(1rem, 3vw, 1.5rem);
     z-index: 1001;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lightbox-action {
     display: grid;
     place-items: center;
     min-width: 4.75rem;
