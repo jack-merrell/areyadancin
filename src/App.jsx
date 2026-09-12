@@ -177,6 +177,42 @@ const useDragBounds = (viewportRef, trackRef) => {
     return bounds;
 };
 
+const useBodyScrollLock = () => {
+    useEffect(() => {
+        const scrollY = window.scrollY;
+        const previousBodyStyles = {
+            left: document.body.style.left,
+            overflow: document.body.style.overflow,
+            position: document.body.style.position,
+            right: document.body.style.right,
+            top: document.body.style.top,
+            width: document.body.style.width,
+        };
+        const previousHtmlOverflow = document.documentElement.style.overflow;
+
+        document.body.classList.add('lightbox-open');
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+
+        return () => {
+            document.body.classList.remove('lightbox-open');
+            document.body.style.position = previousBodyStyles.position;
+            document.body.style.top = previousBodyStyles.top;
+            document.body.style.left = previousBodyStyles.left;
+            document.body.style.right = previousBodyStyles.right;
+            document.body.style.width = previousBodyStyles.width;
+            document.body.style.overflow = previousBodyStyles.overflow;
+            document.documentElement.style.overflow = previousHtmlOverflow;
+            window.scrollTo(0, scrollY);
+        };
+    }, []);
+};
+
 const GalleryTrack = ({ track, trackIndex, onPhotoOpen }) => {
     const viewportRef = useRef(null);
     const trackRef = useRef(null);
@@ -304,6 +340,8 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
     const previousPhoto = photos[photoIndex - 1] ?? null;
     const nextPhoto = photos[photoIndex + 1] ?? null;
 
+    useBodyScrollLock();
+
     useEffect(() => {
         preloadLightboxImage(previousPhoto);
         preloadLightboxImage(nextPhoto);
@@ -371,11 +409,9 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
             }
         };
 
-        document.body.classList.add('lightbox-open');
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
-            document.body.classList.remove('lightbox-open');
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [navigateWithSlide, onClose]);
@@ -612,6 +648,8 @@ const VideoLightbox = ({ onClose }) => {
     const iframeRef = useRef(null);
     const reduceMotion = useReducedMotion();
 
+    useBodyScrollLock();
+
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key !== 'Escape') return;
@@ -620,11 +658,9 @@ const VideoLightbox = ({ onClose }) => {
             onClose();
         };
 
-        document.body.classList.add('lightbox-open');
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
-            document.body.classList.remove('lightbox-open');
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [onClose]);
