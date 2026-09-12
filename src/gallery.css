@@ -159,18 +159,18 @@ body.lightbox-open {
 
 .snaps-hint {
     position: absolute;
-    top: min(14rem, 65%);
-    left: clamp(5.25rem, 14vw, 8.8rem);
+    top: clamp(14.6rem, 23.8vw, 16.9rem);
+    left: clamp(12.8rem, 32vw, 16.9rem);
     display: grid;
     grid-template-columns: auto auto;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.5rem;
     transform: rotate(-2deg);
     color: var(--gallery-red);
 }
 
 .snaps-hint-arrow {
-    width: clamp(4.2rem, 9vw, 5.75rem);
+    width: clamp(4.6rem, 9vw, 5.6rem);
     transform: rotate(141deg) scaleX(-1);
 }
 

@@ -581,7 +581,7 @@ const DrawnArrow = ({ className, type, delay = 0 }) => {
                         pathLength: {
                             duration: pathIndex === 0 ? 1.15 : 0.32,
                             delay: delay + (pathIndex === 0 ? 0 : 1.02 + (pathIndex * 0.08)),
-                            ease: [0.2, 0.85, 0.25, 1],
+                            ease: [0.65, 0, 0.35, 1],
                         },
                         opacity: {
                             duration: 0.12,
