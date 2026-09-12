@@ -93,9 +93,9 @@ body.lightbox-open {
 }
 
 .festival-date {
-    margin: clamp(1.15rem, 2.8vw, 1.75rem) 0 0;
+    margin: clamp(0.62rem, 1.55vw, 0.95rem) 0 0;
     font-family: 'PP Lettra Mono', monospace;
-    font-size: clamp(1.08rem, 2.8vw, 1.7rem);
+    font-size: clamp(0.81rem, 2.1vw, 1.275rem);
     line-height: 1;
     letter-spacing: 0;
     text-align: center;
