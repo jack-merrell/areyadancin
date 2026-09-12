@@ -579,13 +579,13 @@ const DrawnArrow = ({ className, type, delay = 0 }) => {
                     animate={{ pathLength: 1, opacity: 1 }}
                     transition={reduceMotion ? { duration: 0.01 } : {
                         pathLength: {
-                            duration: pathIndex === 0 ? 1.15 : 0.32,
-                            delay: delay + (pathIndex === 0 ? 0 : 1.02 + (pathIndex * 0.08)),
+                            duration: pathIndex === 0 ? 0.72 : 0.2,
+                            delay: delay + (pathIndex === 0 ? 0 : 0.58 + (pathIndex * 0.05)),
                             ease: [0.65, 0, 0.35, 1],
                         },
                         opacity: {
-                            duration: 0.12,
-                            delay: delay + (pathIndex === 0 ? 0 : 1.02 + (pathIndex * 0.08)),
+                            duration: 0.08,
+                            delay: delay + (pathIndex === 0 ? 0 : 0.58 + (pathIndex * 0.05)),
                         },
                     }}
                 />
@@ -602,14 +602,6 @@ const ThanksVideoSection = () => (
             <span>DANCIN'</span>
             <span>WITH US!!!</span>
         </h2>
-        <div className="snaps-hint" aria-hidden="true">
-            <DrawnArrow className="snaps-hint-arrow" type="swirly" delay={0.35} />
-            <p className="snaps-hint-text">
-                <span>SCROLL</span>
-                <span>THROUGH</span>
-                <span>THE SNAPS</span>
-            </p>
-        </div>
         <a
             className="thanks-video-link"
             href="https://vimeo.com/1224462616"
@@ -617,6 +609,14 @@ const ThanksVideoSection = () => (
             rel="noreferrer"
             aria-label="Watch the wedding video on Vimeo"
         >
+            <span className="snaps-hint" aria-hidden="true">
+                <DrawnArrow className="snaps-hint-arrow" type="swirly" delay={0.25} />
+                <span className="snaps-hint-text">
+                    <span>SCROLL</span>
+                    <span>THROUGH</span>
+                    <span>THE SNAPS</span>
+                </span>
+            </span>
             <span className="thanks-video-card">
                 <video
                     className="thanks-video-preview"

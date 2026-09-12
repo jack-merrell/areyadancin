@@ -120,7 +120,7 @@ body.lightbox-open {
     align-items: start;
     justify-content: center;
     gap: clamp(0.65rem, 1.65vw, 1rem);
-    width: min(43rem, calc(100% - clamp(2rem, 8vw, 7rem)));
+    width: min(50rem, calc(100% - clamp(2rem, 8vw, 7rem)));
     margin: 0 auto clamp(4.75rem, 10vw, 7.25rem);
     color: var(--gallery-red);
 }
@@ -158,13 +158,12 @@ body.lightbox-open {
 }
 
 .snaps-hint {
-    position: absolute;
-    top: clamp(14.6rem, 23.8vw, 16.9rem);
-    left: clamp(12.8rem, 32vw, 16.9rem);
     display: grid;
     grid-template-columns: auto auto;
     align-items: center;
     gap: 0.5rem;
+    align-self: end;
+    margin: 0 clamp(-0.35rem, -0.6vw, -0.1rem) clamp(2.4rem, 5vw, 3.1rem) 0;
     transform: rotate(-2deg);
     color: var(--gallery-red);
 }
@@ -191,7 +190,7 @@ body.lightbox-open {
 
 .thanks-video-link {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     align-items: end;
     gap: clamp(0.55rem, 1.25vw, 0.8rem);
     color: inherit;
@@ -507,7 +506,7 @@ body.lightbox-open {
     .thanks-video-section {
         grid-template-columns: 1fr;
         justify-items: center;
-        width: min(24rem, calc(100% - 2rem));
+        width: min(30rem, calc(100% - 1rem));
         margin-bottom: clamp(4rem, 14vw, 6rem);
     }
 
@@ -517,15 +516,20 @@ body.lightbox-open {
     }
 
     .snaps-hint {
-        position: relative;
-        top: auto;
-        left: auto;
-        margin: -0.4rem 0 0.15rem;
+        margin: 0 -0.2rem 2.15rem 0;
         transform: rotate(-2deg);
     }
 
     .snaps-hint-arrow {
-        width: 4.6rem;
+        width: clamp(3.5rem, 13vw, 4.6rem);
+    }
+
+    .snaps-hint-text {
+        font-size: clamp(0.74rem, 3vw, 0.9rem);
+    }
+
+    .thanks-video-card {
+        width: clamp(9.1rem, 38vw, 10.4rem);
     }
 
     .thanks-video-link {
