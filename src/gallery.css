@@ -97,7 +97,8 @@ body.lightbox-open {
     font-family: 'PP Lettra Mono', monospace;
     font-size: clamp(0.81rem, 2.1vw, 1.275rem);
     line-height: 1;
-    letter-spacing: 0;
+    letter-spacing: -0.08em;
+    font-feature-settings: "swsh" 1, "onum" 1, "pnum" 1;
     text-align: center;
     color: var(--gallery-red);
 }
