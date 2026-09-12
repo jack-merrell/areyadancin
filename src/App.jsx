@@ -502,13 +502,13 @@ const CoupleMark = () => {
                     initial={reduceMotion ? false : {
                         opacity: 0,
                         scale: 0,
-                        rotate: -34,
+                        rotate: -17,
                         y: 10,
                     }}
                     animate={reduceMotion ? { scale: 1, rotate: 0, y: 0 } : {
                         opacity: [0, 1, 1, 1, 1, 1],
                         scale: [0, 1.5, 0.84, 1.13, 0.97, 1],
-                        rotate: [-34, 32, -24, 16, -8, 0],
+                        rotate: [-17, 16, -12, 8, -4, 0],
                         y: [10, -9, 4, -2, 1, 0],
                     }}
                     transition={reduceMotion ? { duration: 0.01 } : {
