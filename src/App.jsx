@@ -257,10 +257,11 @@ const GalleryTrack = ({ track, trackIndex, onPhotoOpen }) => {
                 <motion.div
                     className="track-settle"
                     initial={reduceMotion ? false : { x: 72, opacity: 0.01 }}
-                    animate={{ x: 0, opacity: 1 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.28 }}
                     transition={{
                         duration: reduceMotion ? 0.01 : 1,
-                        delay: reduceMotion ? 0 : 0.12 + (trackIndex * 0.08),
+                        delay: reduceMotion ? 0 : 0.08,
                         ease: [0.16, 1, 0.3, 1],
                     }}
                 >

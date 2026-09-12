@@ -168,8 +168,8 @@ body.lightbox-open {
 
 .snaps-hint-arrow {
     position: absolute;
-    top: calc(100% - 0.95rem);
-    right: calc(100% - 1rem);
+    top: calc(100% - 1.5rem);
+    right: calc(100% - 1.5rem);
     width: clamp(4.6rem, 9vw, 5.6rem);
     transform: rotate(-8deg);
     transform-origin: 77% 15%;
