@@ -184,7 +184,7 @@ body.lightbox-open {
 .snaps-hint-text {
     margin: 0;
     font-family: 'PP Lettra Mono', monospace;
-    font-size: clamp(0.82rem, 1.55vw, 1rem);
+    font-size: clamp(0.82rem, 1.65vw, 0.9rem);
     line-height: 0.88;
     letter-spacing: -0.08em;
     font-feature-settings: "swsh" 1, "onum" 1, "pnum" 1;
@@ -246,7 +246,7 @@ body.lightbox-open {
     gap: 0.05rem;
     padding-bottom: clamp(0.55rem, 1.35vw, 0.9rem);
     font-family: 'PP Lettra Mono', monospace;
-    font-size: clamp(0.92rem, 1.7vw, 1.08rem);
+    font-size: clamp(0.82rem, 1.65vw, 0.9rem);
     line-height: 0.88;
     letter-spacing: -0.08em;
     font-feature-settings: "swsh" 1, "onum" 1, "pnum" 1;
@@ -258,8 +258,7 @@ body.lightbox-open {
     position: absolute;
     left: -0.35rem;
     bottom: calc(100% + 0.85rem);
-    width: clamp(3rem, 6vw, 4.2rem);
-    transform: rotate(-5deg);
+    width: clamp(2.6rem, 5vw, 3.4rem);
 }
 
 .thanks-video-cta span {
@@ -568,10 +567,6 @@ body.lightbox-open {
         width: clamp(3.5rem, 13vw, 4.6rem);
     }
 
-    .snaps-hint-text {
-        font-size: clamp(0.74rem, 3vw, 0.9rem);
-    }
-
     .thanks-video-card {
         width: clamp(9.1rem, 38vw, 10.4rem);
     }
@@ -584,7 +579,7 @@ body.lightbox-open {
     .watch-hint-arrow {
         left: -0.2rem;
         bottom: calc(100% + 0.65rem);
-        width: 3.25rem;
+        width: 2.9rem;
     }
 
     .photo-lightbox {
