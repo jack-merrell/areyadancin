@@ -537,11 +537,7 @@ body.lightbox-open {
     pointer-events: none;
 }
 
-@media (max-width: 850px) {
-    .thank-you-gallery {
-        min-height: 100svh;
-    }
-
+@media (max-width: 1100px) {
     .thanks-video-section {
         grid-template-columns: 1fr;
         justify-items: center;
@@ -551,19 +547,36 @@ body.lightbox-open {
     }
 
     .thanks-video-heading {
+        justify-self: center;
         max-width: 20rem;
         margin-right: 0;
         text-align: center;
     }
 
+    .thanks-video-link {
+        justify-self: center;
+        grid-template-columns: auto auto;
+        justify-content: center;
+        margin-left: 0;
+        transform: none;
+    }
+}
+
+@media (max-width: 850px) {
+    .thank-you-gallery {
+        min-height: 100svh;
+    }
+
     .snaps-hint {
-        right: calc(100% + 0.15rem);
-        bottom: -0.45rem;
+        position: static;
+        grid-row: 3;
+        justify-self: center;
+        margin-top: 0.1rem;
         transform: rotate(-2deg);
     }
 
     .snaps-hint-arrow {
-        width: clamp(3.5rem, 13vw, 4.6rem);
+        display: none;
     }
 
     .thanks-video-card {
@@ -571,10 +584,15 @@ body.lightbox-open {
     }
 
     .thanks-video-link {
-        grid-template-columns: auto auto;
-        justify-content: center;
-        margin-left: 0;
-        transform: none;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 0.7rem;
+    }
+
+    .thanks-video-cta {
+        justify-items: center;
+        padding-bottom: 0;
+        text-align: center;
     }
 
     .photo-lightbox {
