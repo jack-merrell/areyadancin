@@ -539,6 +539,45 @@ const FestivalLockup = () => (
     </header>
 );
 
+const ThanksVideoSection = () => (
+    <section className="thanks-video-section" aria-labelledby="thanks-video-heading">
+        <h2 className="thanks-video-heading" id="thanks-video-heading">
+            <span>THANK YOU</span>
+            <span>ALL FOR</span>
+            <span>DANCIN'</span>
+            <span>WITH US!!!</span>
+        </h2>
+        <a
+            className="thanks-video-link"
+            href="https://vimeo.com/1224462616"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Watch the wedding video on Vimeo"
+        >
+            <span className="thanks-video-card">
+                <video
+                    className="thanks-video-preview"
+                    src="/videos/wedding-preview.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    aria-hidden="true"
+                />
+            </span>
+            <span className="thanks-video-cta" aria-hidden="true">
+                <span>WATCH</span>
+                <span>THE</span>
+                <span>VIDEO</span>
+                <span className="thanks-video-play">
+                    <span className="thanks-video-play-icon" />
+                </span>
+            </span>
+        </a>
+    </section>
+);
+
 const getSelectedPhotoContext = (selectedPhoto) => {
     if (!selectedPhoto) return null;
 
@@ -651,6 +690,7 @@ export default function App() {
                 <main className="content thank-you-content">
                     <section className="thank-you-gallery" aria-label="Wedding photo gallery">
                         <FestivalLockup />
+                        <ThanksVideoSection />
                         {tracks.map((track, trackIndex) => (
                             <GalleryTrack key={track.id} track={track} trackIndex={trackIndex} onPhotoOpen={openPhoto} />
                         ))}
