@@ -17,6 +17,7 @@ const TRACK_PREVIEW_PRELOAD_COUNT = 16;
 const TRACK_PREVIEW_PRELOAD_INTERVAL = 90;
 const SHARE_ORIGIN = 'https://areyadancin.com';
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+const VIDEO_PREVIEW_SRC = '/videos/wedding-preview.mp4?v=20260912';
 const preloadedLightboxImages = new Set();
 const preloadedPreviewImages = new Set();
 const coupleMarkPaths = [
@@ -765,7 +766,7 @@ const ThanksVideoSection = ({ onVideoOpen }) => (
             <motion.span className="thanks-video-card" layoutId="wedding-video">
                 <video
                     className="thanks-video-preview"
-                    src="/videos/wedding-preview.mp4"
+                    src={VIDEO_PREVIEW_SRC}
                     autoPlay
                     muted
                     loop
