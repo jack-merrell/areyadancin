@@ -16,6 +16,7 @@ const LIGHTBOX_SWIPE_VELOCITY = 520;
 const TRACK_PREVIEW_PRELOAD_COUNT = 16;
 const TRACK_PREVIEW_PRELOAD_INTERVAL = 90;
 const SHARE_ORIGIN = 'https://areyadancin.com';
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 const preloadedLightboxImages = new Set();
 const preloadedPreviewImages = new Set();
 const coupleMarkPaths = [
@@ -196,6 +197,17 @@ const GalleryTrack = ({ track, trackIndex, onPhotoOpen }) => {
         bounceStiffness: 420,
         bounceDamping: 34,
     }), [reduceMotion]);
+    const handleWheel = useCallback((event) => {
+        const canScrollTrack = bounds.left < bounds.right;
+        const wheelDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey
+            ? event.deltaX || event.deltaY
+            : 0;
+
+        if (!canScrollTrack || wheelDelta === 0) return;
+
+        event.preventDefault();
+        x.set(clamp(x.get() - wheelDelta, bounds.left, bounds.right));
+    }, [bounds.left, bounds.right, x]);
 
     return (
         <section className="gallery-track-section" aria-labelledby={`${track.id}-title`}>
@@ -204,7 +216,7 @@ const GalleryTrack = ({ track, trackIndex, onPhotoOpen }) => {
                 <h2 id={`${track.id}-title`}>{track.title}</h2>
             </div>
 
-            <div className="track-viewport" ref={viewportRef}>
+            <div className="track-viewport" ref={viewportRef} onWheel={handleWheel}>
                 <motion.div
                     className="track-settle"
                     initial={reduceMotion ? false : { x: 72, opacity: 0.01 }}
