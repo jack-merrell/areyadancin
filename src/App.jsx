@@ -4,6 +4,7 @@ import {
     LayoutGroup,
     motion,
     useAnimationControls,
+    useInView,
     useMotionValue,
     useReducedMotion,
 } from 'motion/react';
@@ -215,18 +216,35 @@ const useBodyScrollLock = () => {
 };
 
 const GalleryTrack = ({ track, trackIndex, onPhotoOpen }) => {
+    const sectionRef = useRef(null);
     const viewportRef = useRef(null);
     const trackRef = useRef(null);
     const pointerStartRef = useRef({ x: 0, y: 0 });
     const x = useMotionValue(0);
     const bounds = useDragBounds(viewportRef, trackRef);
+    const settleControls = useAnimationControls();
     const reduceMotion = useReducedMotion();
+    const isTrackInView = useInView(sectionRef, {
+        amount: 0.28,
+        once: true,
+    });
 
     useEffect(() => {
         const currentX = x.get();
         if (currentX < bounds.left) x.set(bounds.left);
         if (currentX > bounds.right) x.set(bounds.right);
     }, [bounds.left, bounds.right, x]);
+
+    useEffect(() => {
+        if (reduceMotion) {
+            settleControls.set({ x: 0, opacity: 1 });
+            return;
+        }
+
+        if (isTrackInView) {
+            settleControls.start({ x: 0, opacity: 1 });
+        }
+    }, [isTrackInView, reduceMotion, settleControls]);
 
     const dragTransition = useMemo(() => ({
         power: reduceMotion ? 0 : 0.32,
@@ -247,7 +265,7 @@ const GalleryTrack = ({ track, trackIndex, onPhotoOpen }) => {
     }, [bounds.left, bounds.right, x]);
 
     return (
-        <section className="gallery-track-section" aria-labelledby={`${track.id}-title`}>
+        <section className="gallery-track-section" ref={sectionRef} aria-labelledby={`${track.id}-title`}>
             <div className="track-label">
                 <p className="track-act">{track.act}</p>
                 <h2 id={`${track.id}-title`}>{track.title}</h2>
@@ -256,9 +274,8 @@ const GalleryTrack = ({ track, trackIndex, onPhotoOpen }) => {
             <div className="track-viewport" ref={viewportRef} onWheel={handleWheel}>
                 <motion.div
                     className="track-settle"
-                    initial={reduceMotion ? false : { x: 72, opacity: 0.01 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    viewport={{ once: true, amount: 0.28 }}
+                    initial={reduceMotion ? false : { x: 72, opacity: 0 }}
+                    animate={settleControls}
                     transition={{
                         duration: reduceMotion ? 0.01 : 1,
                         delay: reduceMotion ? 0 : 0.08,
