@@ -532,7 +532,9 @@ const FestivalLockup = () => (
             <span>FESTIVAL</span>
         </div>
         <p className="festival-date" aria-label="25th of July 2026">
-            <time dateTime="2026-07-25">25<sup>th</sup> OF JULY 2026</time>
+            <time dateTime="2026-07-25">
+                <span className="festival-date-number">25</span><sup>th</sup> OF JULY <span className="festival-date-number">2026</span>
+            </time>
         </p>
     </header>
 );

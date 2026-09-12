@@ -109,6 +109,10 @@ body.lightbox-open {
     vertical-align: super;
 }
 
+.festival-date-number {
+    font-feature-settings: "lnum" 1, "pnum" 1;
+}
+
 .gallery-track-section {
     position: relative;
     color: var(--gallery-red);
