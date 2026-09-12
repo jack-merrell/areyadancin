@@ -290,9 +290,9 @@ body.lightbox-open {
 }
 
 .video-lightbox-frame {
-    width: min(92vw, 1180px);
-    aspect-ratio: 16 / 9;
-    border: clamp(4px, 0.65vw, 8px) solid var(--gallery-red);
+    width: min(92vw, calc((100dvh - clamp(2rem, 8vw, 5rem)) * 9 / 16));
+    max-height: calc(100dvh - clamp(2rem, 8vw, 5rem));
+    aspect-ratio: 9 / 16;
     background: #000;
     box-shadow: 0 22px 72px rgba(0, 0, 0, 0.5);
     cursor: default;
