@@ -567,6 +567,7 @@ body.lightbox-open {
     .thanks-video-link {
         grid-template-columns: auto auto;
         justify-content: center;
+        transform: translateX(clamp(1.2rem, 6vw, 1.8rem));
     }
 
     .photo-lightbox {
