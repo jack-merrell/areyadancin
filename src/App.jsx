@@ -49,7 +49,8 @@ const arrowPaths = {
         ],
     },
 };
-const VIMEO_EMBED_URL = 'https://player.vimeo.com/video/1224462616?autoplay=1&title=0&byline=0&portrait=0';
+const VIMEO_PLAYER_ID = 'wedding-video-player';
+const VIMEO_EMBED_URL = `https://player.vimeo.com/video/1224462616?autoplay=1&title=0&byline=0&portrait=0&api=1&player_id=${VIMEO_PLAYER_ID}`;
 
 const preloadLightboxImage = (photo) => {
     if (!photo || preloadedLightboxImages.has(photo.src)) return;
@@ -596,6 +597,7 @@ const DrawnArrow = ({ className, type, delay = 0 }) => {
 };
 
 const VideoLightbox = ({ onClose }) => {
+    const iframeRef = useRef(null);
     const reduceMotion = useReducedMotion();
 
     useEffect(() => {
@@ -615,13 +617,46 @@ const VideoLightbox = ({ onClose }) => {
         };
     }, [onClose]);
 
+    useEffect(() => {
+        const handleVimeoMessage = (event) => {
+            if (event.origin !== 'https://player.vimeo.com') return;
+
+            let message = event.data;
+
+            if (typeof event.data === 'string') {
+                try {
+                    message = JSON.parse(event.data);
+                } catch {
+                    return;
+                }
+            }
+
+            if (message?.event === 'ready') {
+                iframeRef.current?.contentWindow?.postMessage({
+                    method: 'addEventListener',
+                    value: 'ended',
+                }, 'https://player.vimeo.com');
+            }
+
+            if (message?.event === 'ended') {
+                onClose();
+            }
+        };
+
+        window.addEventListener('message', handleVimeoMessage);
+
+        return () => {
+            window.removeEventListener('message', handleVimeoMessage);
+        };
+    }, [onClose]);
+
     return (
         <motion.div
             className="video-lightbox"
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0.01 : 0.2 }}
+            transition={{ duration: reduceMotion ? 0.01 : 0.12 }}
             onClick={onClose}
             role="dialog"
             aria-modal="true"
@@ -638,12 +673,14 @@ const VideoLightbox = ({ onClose }) => {
                 onClick={(event) => event.stopPropagation()}
                 transition={reduceMotion ? { duration: 0.01 } : {
                     type: 'spring',
-                    stiffness: 260,
-                    damping: 30,
-                    mass: 0.85,
+                    stiffness: 420,
+                    damping: 38,
+                    mass: 0.65,
                 }}
             >
                 <iframe
+                    ref={iframeRef}
+                    id={VIMEO_PLAYER_ID}
                     src={VIMEO_EMBED_URL}
                     title="Wedding video"
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
