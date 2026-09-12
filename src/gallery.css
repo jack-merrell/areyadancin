@@ -77,8 +77,9 @@ body.lightbox-open {
     display: grid;
     justify-items: center;
     box-sizing: border-box;
-    width: clamp(238px, 42vw, 360px);
-    padding: clamp(0.52rem, 1.15vw, 0.72rem);
+    width: fit-content;
+    max-width: calc(100vw - 2rem);
+    padding: clamp(0.26rem, 0.575vw, 0.36rem) clamp(0.26rem, 0.575vw, 0.36rem) clamp(0.18rem, 0.4vw, 0.25rem);
     border: clamp(2px, 0.35vw, 3px) solid var(--gallery-red);
     font-family: 'PP Object Sans', sans-serif;
     font-weight: 800;
