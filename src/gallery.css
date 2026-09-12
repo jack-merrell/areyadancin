@@ -92,6 +92,22 @@ body.lightbox-open {
     display: block;
 }
 
+.festival-date {
+    margin: clamp(1.15rem, 2.8vw, 1.75rem) 0 0;
+    font-family: 'PP Lettra Mono', monospace;
+    font-size: clamp(1.08rem, 2.8vw, 1.7rem);
+    line-height: 1;
+    letter-spacing: 0;
+    text-align: center;
+    color: var(--gallery-red);
+}
+
+.festival-date sup {
+    font-size: 0.55em;
+    line-height: 0;
+    vertical-align: super;
+}
+
 .gallery-track-section {
     position: relative;
     color: var(--gallery-red);
