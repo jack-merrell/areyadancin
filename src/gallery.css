@@ -100,9 +100,8 @@ body.lightbox-open {
 }
 
 .festival-date {
-    margin: clamp(0.31rem, 0.775vw, 0.475rem) 0 0;
     font-family: 'PP Lettra Mono', monospace;
-    font-size: clamp(0.81rem, 2.1vw, 1.275rem);
+    font-size: clamp(0.81rem, 2.1vw, 1rem);
     line-height: 1;
     letter-spacing: -0.08em;
     font-feature-settings: "swsh" 1, "onum" 1, "pnum" 1;
@@ -243,6 +242,7 @@ body.lightbox-open {
 .thanks-video-cta {
     position: relative;
     display: grid;
+    justify-items: start;
     gap: 0.05rem;
     padding-bottom: clamp(0.55rem, 1.35vw, 0.9rem);
     font-family: 'PP Lettra Mono', monospace;
@@ -250,15 +250,16 @@ body.lightbox-open {
     line-height: 0.88;
     letter-spacing: -0.08em;
     font-feature-settings: "swsh" 1, "onum" 1, "pnum" 1;
+    text-align: left;
     text-transform: uppercase;
 }
 
 .watch-hint-arrow {
     position: absolute;
-    right: calc(100% - 0.2rem);
-    bottom: calc(100% + 1.15rem);
-    width: clamp(3.3rem, 7vw, 4.8rem);
-    transform: rotate(78deg) scaleY(-1);
+    left: -0.35rem;
+    bottom: calc(100% + 0.85rem);
+    width: clamp(3rem, 6vw, 4.2rem);
+    transform: rotate(-5deg);
 }
 
 .thanks-video-cta span {
@@ -581,9 +582,9 @@ body.lightbox-open {
     }
 
     .watch-hint-arrow {
-        right: calc(100% - 0.15rem);
-        bottom: calc(100% + 0.8rem);
-        width: 3.4rem;
+        left: -0.2rem;
+        bottom: calc(100% + 0.65rem);
+        width: 3.25rem;
     }
 
     .photo-lightbox {
