@@ -196,7 +196,7 @@ body.lightbox-open {
 
 .thanks-video-play {
     position: relative;
-    width: clamp(3.25rem, 6vw, 4.15rem);
+    width: clamp(2.85rem, 4.8vw, 3.35rem);
     aspect-ratio: 2.05 / 1;
     margin-top: 0.45rem;
     background: var(--gallery-red);
