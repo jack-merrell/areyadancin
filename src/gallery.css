@@ -64,6 +64,10 @@ body.lightbox-open {
 }
 
 .festival-couple-path {
+    stroke: rgba(0, 0, 0, 0.28);
+    stroke-width: 0.65px;
+    stroke-linejoin: round;
+    paint-order: stroke fill;
     transform-box: fill-box;
     transform-origin: center;
     will-change: transform;
