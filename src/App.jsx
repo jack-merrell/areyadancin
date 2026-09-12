@@ -728,7 +728,7 @@ const VideoLightbox = ({ onClose }) => {
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0.01 : 0.06, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: reduceMotion ? 0.01 : 0.04, ease: [0.16, 1, 0.3, 1] }}
             onClick={onClose}
             role="dialog"
             aria-modal="true"
@@ -745,7 +745,7 @@ const VideoLightbox = ({ onClose }) => {
                 onClick={(event) => event.stopPropagation()}
                 transition={reduceMotion ? { duration: 0.01 } : {
                     type: 'tween',
-                    duration: 0.24,
+                    duration: 0.13,
                     ease: [0.16, 1, 0.3, 1],
                 }}
             >
