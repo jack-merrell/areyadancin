@@ -61,6 +61,12 @@ body.lightbox-open {
     height: auto;
     display: block;
     overflow: visible;
+    cursor: pointer;
+}
+
+.festival-couple-mark:focus-visible {
+    outline: 2px solid var(--gallery-red);
+    outline-offset: 0.35rem;
 }
 
 .festival-couple-path {

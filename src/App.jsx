@@ -567,13 +567,26 @@ const PhotoLightbox = ({ photo, photos, photoIndex, useSharedLayout, onClose, on
 };
 
 const CoupleMark = () => {
+    const [animationRun, setAnimationRun] = useState(0);
     const reduceMotion = useReducedMotion();
+    const replayAnimation = () => {
+        setAnimationRun((run) => run + 1);
+    };
+    const handleKeyDown = (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+
+        event.preventDefault();
+        replayAnimation();
+    };
 
     return (
         <motion.svg
             className="festival-couple-mark"
-            role="img"
-            aria-label="Lou & Jack"
+            role="button"
+            tabIndex={0}
+            aria-label="Replay Lou & Jack animation"
+            onClick={replayAnimation}
+            onKeyDown={handleKeyDown}
             preserveAspectRatio="none"
             overflow="visible"
             viewBox="0 0 201 27.2187"
@@ -583,7 +596,7 @@ const CoupleMark = () => {
             {coupleMarkPaths.map((letter, index) => (
                 <motion.use
                     className="festival-couple-path"
-                    key={letter.id}
+                    key={`${letter.id}-${animationRun}`}
                     href={letter.href}
                     aria-hidden="true"
                     initial={reduceMotion ? false : {
