@@ -545,6 +545,7 @@ body.lightbox-open {
     .thanks-video-section {
         grid-template-columns: 1fr;
         justify-items: center;
+        row-gap: clamp(1.4rem, 6vw, 2rem);
         width: min(30rem, calc(100% - 1rem));
         margin-bottom: clamp(4rem, 14vw, 6rem);
     }
@@ -573,7 +574,7 @@ body.lightbox-open {
         grid-template-columns: auto auto;
         justify-content: center;
         margin-left: 0;
-        transform: translateX(clamp(1.2rem, 6vw, 1.8rem));
+        transform: none;
     }
 
     .photo-lightbox {
