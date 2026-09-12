@@ -163,12 +163,12 @@ body.lightbox-open {
     border-radius: 8px;
     overflow: hidden;
     background: var(--gallery-red);
-    transform: rotate(-2.5deg);
+    transform: rotate(-1.6deg);
     transition: transform 180ms ease;
 }
 
 .thanks-video-link:hover .thanks-video-card {
-    transform: rotate(-1deg) scale(1.015);
+    transform: rotate(-0.6deg) scale(1.015);
 }
 
 .thanks-video-preview {
