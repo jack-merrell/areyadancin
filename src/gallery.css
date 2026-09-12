@@ -126,12 +126,12 @@ body.lightbox-open {
 
 .thanks-video-heading {
     margin: 0;
-    max-width: 31rem;
-    font-family: 'PP Object Sans', sans-serif;
-    font-size: clamp(3.2rem, 8.2vw, 6.35rem);
-    font-weight: 800;
-    font-style: italic;
-    line-height: 0.78;
+    max-width: 17rem;
+    font-family: 'Poetsen One', sans-serif;
+    font-size: clamp(1.6rem, 4.1vw, 3.175rem);
+    font-weight: normal;
+    font-style: normal;
+    line-height: 0.96;
     letter-spacing: 0;
     text-align: right;
     text-transform: uppercase;
@@ -455,7 +455,7 @@ body.lightbox-open {
     }
 
     .thanks-video-heading {
-        max-width: 25rem;
+        max-width: 17rem;
         text-align: center;
     }
 
