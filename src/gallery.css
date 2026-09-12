@@ -163,14 +163,14 @@ body.lightbox-open {
     align-items: center;
     gap: 0.5rem;
     align-self: end;
-    margin: 0 clamp(-0.35rem, -0.6vw, -0.1rem) clamp(2.4rem, 5vw, 3.1rem) 0;
+    margin: 0 clamp(-0.35rem, -0.6vw, -0.1rem) 0 0;
     transform: rotate(-2deg);
     color: var(--gallery-red);
 }
 
 .snaps-hint-arrow {
     width: clamp(4.6rem, 9vw, 5.6rem);
-    transform: rotate(141deg) scaleX(-1);
+    transform: rotate(-8deg);
 }
 
 .snaps-hint-text {
@@ -516,7 +516,7 @@ body.lightbox-open {
     }
 
     .snaps-hint {
-        margin: 0 -0.2rem 2.15rem 0;
+        margin: 0 -0.2rem 0 0;
         transform: rotate(-2deg);
     }
 
