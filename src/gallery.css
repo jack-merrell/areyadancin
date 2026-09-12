@@ -254,14 +254,6 @@ body.lightbox-open {
     text-transform: uppercase;
 }
 
-.watch-hint-arrow {
-    position: absolute;
-    left: -0.6rem;
-    bottom: calc(100% + 0.65rem);
-    width: clamp(3.1rem, 5.8vw, 4rem);
-    transform: rotate(-40deg) scaleX(-1);
-}
-
 .thanks-video-cta span {
     display: block;
 }
@@ -575,12 +567,6 @@ body.lightbox-open {
     .thanks-video-link {
         grid-template-columns: auto auto;
         justify-content: center;
-    }
-
-    .watch-hint-arrow {
-        left: -0.35rem;
-        bottom: calc(100% + 0.5rem);
-        width: 3.2rem;
     }
 
     .photo-lightbox {

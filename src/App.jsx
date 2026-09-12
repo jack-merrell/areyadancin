@@ -44,7 +44,6 @@ const arrowPaths = {
         ],
     },
 };
-const WATCH_ARROW_PATH = 'M348.232,100.282c-13.464-32.436-35.496-60.588-45.9-94.86c-1.836-5.508-11.016-7.956-13.464-1.836c-14.688,34.272-36.72,65.484-47.124,101.592c-1.836,6.732,7.344,13.464,12.24,7.344c7.344-9.18,15.912-16.524,24.479-25.092c-1.224,52.632,0,105.264-9.18,157.284c-4.896,28.152-11.628,59.977-31.824,81.396c-24.479,25.704-55.08,2.448-68.544-21.42c-11.628-20.809-31.823-110.772-72.215-79.561c-23.868,18.36-29.988,43.452-37.332,70.992c-1.836,7.956-4.896,15.3-8.568,22.032c-14.076,26.316-32.436-16.524-33.048-26.928c-1.224-20.809,4.896-42.229,9.792-62.424c1.836-6.12-7.344-8.568-9.792-2.448c-11.016,28.764-26.316,77.724,0,102.815c23.256,21.42,42.84,7.345,52.02-17.748c6.12-16.523,29.376-108.323,56.304-65.483c17.748,28.151,22.644,61.812,44.064,88.128c15.3,18.359,42.84,22.644,64.26,13.464c25.704-11.628,36.72-45.9,43.452-70.38c16.523-61.2,16.523-127.296,14.688-190.332c14.688,9.792,31.212,18.972,47.736,25.092C347.008,113.746,350.681,105.178,348.232,100.282z M268.672,78.25c7.956-17.136,17.748-34.272,26.316-51.408c9.18,21.42,20.808,40.392,31.824,61.2c-12.853-7.956-25.092-17.136-39.168-18.972c-3.061-0.612-5.509,1.224-6.732,3.672C276.628,73.354,272.345,75.19,268.672,78.25z';
 const VIMEO_PLAYER_ID = 'wedding-video-player';
 const VIMEO_EMBED_URL = `https://player.vimeo.com/video/1224462616?autoplay=1&title=0&byline=0&portrait=0&api=1&player_id=${VIMEO_PLAYER_ID}`;
 
@@ -669,18 +668,6 @@ const DrawnArrow = ({ className, type, delay = 0 }) => {
     );
 };
 
-const WatchArrow = ({ className }) => (
-        <svg
-            className={`watch-arrow ${className}`}
-            viewBox="0 0 352.2 352.2"
-            aria-hidden="true"
-            focusable="false"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path d={WATCH_ARROW_PATH} fill="currentColor" />
-        </svg>
-);
-
 const VideoLightbox = ({ onClose }) => {
     const iframeRef = useRef(null);
     const reduceMotion = useReducedMotion();
@@ -812,7 +799,6 @@ const ThanksVideoSection = ({ onVideoOpen }) => (
                 />
             </motion.span>
             <span className="thanks-video-cta" aria-hidden="true">
-                <WatchArrow className="watch-hint-arrow" />
                 <span>WATCH</span>
                 <span>THE</span>
                 <span>VIDEO</span>
