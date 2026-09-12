@@ -116,7 +116,7 @@ body.lightbox-open {
 .thanks-video-section {
     display: grid;
     grid-template-columns: minmax(17rem, 20rem) auto;
-    align-items: end;
+    align-items: start;
     justify-content: center;
     gap: clamp(0.65rem, 1.65vw, 1rem);
     width: min(43rem, calc(100% - clamp(2rem, 8vw, 7rem)));
@@ -131,7 +131,7 @@ body.lightbox-open {
     font-size: clamp(2.3rem, 5.55vw, 3.45rem);
     font-weight: normal;
     font-style: normal;
-    line-height: 0.88;
+    line-height: 0.8;
     letter-spacing: 0;
     text-align: right;
     text-transform: uppercase;
