@@ -120,7 +120,7 @@ body.lightbox-open {
     align-items: start;
     justify-content: center;
     gap: clamp(0.65rem, 1.65vw, 1rem);
-    width: min(50rem, calc(100% - clamp(2rem, 8vw, 7rem)));
+    width: min(43rem, calc(100% - clamp(2rem, 8vw, 7rem)));
     margin: 0 auto clamp(4.75rem, 10vw, 7.25rem);
     color: var(--gallery-red);
 }
@@ -158,12 +158,13 @@ body.lightbox-open {
 }
 
 .snaps-hint {
+    position: absolute;
+    right: calc(100% + clamp(0.2rem, 0.75vw, 0.45rem));
+    bottom: clamp(-1.15rem, -1.8vw, -0.65rem);
     display: grid;
     grid-template-columns: auto auto;
     align-items: center;
     gap: 0.5rem;
-    align-self: end;
-    margin: 0 clamp(-0.35rem, -0.6vw, -0.1rem) 0 0;
     transform: rotate(-2deg);
     color: var(--gallery-red);
 }
@@ -189,8 +190,9 @@ body.lightbox-open {
 }
 
 .thanks-video-link {
+    position: relative;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     align-items: end;
     gap: clamp(0.55rem, 1.25vw, 0.8rem);
     color: inherit;
@@ -516,7 +518,8 @@ body.lightbox-open {
     }
 
     .snaps-hint {
-        margin: 0 -0.2rem 0 0;
+        right: calc(100% + 0.15rem);
+        bottom: -0.45rem;
         transform: rotate(-2deg);
     }
 
