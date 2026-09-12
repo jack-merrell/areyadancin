@@ -49,6 +49,7 @@ const arrowPaths = {
         ],
     },
 };
+const VIMEO_EMBED_URL = 'https://player.vimeo.com/video/1224462616?autoplay=1&title=0&byline=0&portrait=0';
 
 const preloadLightboxImage = (photo) => {
     if (!photo || preloadedLightboxImages.has(photo.src)) return;
@@ -594,7 +595,67 @@ const DrawnArrow = ({ className, type, delay = 0 }) => {
     );
 };
 
-const ThanksVideoSection = () => (
+const VideoLightbox = ({ onClose }) => {
+    const reduceMotion = useReducedMotion();
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key !== 'Escape') return;
+
+            event.preventDefault();
+            onClose();
+        };
+
+        document.body.classList.add('lightbox-open');
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.body.classList.remove('lightbox-open');
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [onClose]);
+
+    return (
+        <motion.div
+            className="video-lightbox"
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
+            transition={{ duration: reduceMotion ? 0.01 : 0.2 }}
+            onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Wedding video"
+        >
+            <div className="lightbox-actions" onClick={(event) => event.stopPropagation()}>
+                <button className="lightbox-action lightbox-close" type="button" onClick={onClose} aria-label="Close video" title="Close video">
+                    CLOSE
+                </button>
+            </div>
+            <motion.div
+                className="video-lightbox-frame"
+                layoutId="wedding-video"
+                onClick={(event) => event.stopPropagation()}
+                transition={reduceMotion ? { duration: 0.01 } : {
+                    type: 'spring',
+                    stiffness: 260,
+                    damping: 30,
+                    mass: 0.85,
+                }}
+            >
+                <iframe
+                    src={VIMEO_EMBED_URL}
+                    title="Wedding video"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                />
+            </motion.div>
+        </motion.div>
+    );
+};
+
+const ThanksVideoSection = ({ onVideoOpen }) => (
     <section className="thanks-video-section" aria-labelledby="thanks-video-heading">
         <h2 className="thanks-video-heading" id="thanks-video-heading">
             <span>THANK YOU</span>
@@ -602,12 +663,11 @@ const ThanksVideoSection = () => (
             <span>DANCIN'</span>
             <span>WITH US!!!</span>
         </h2>
-        <a
+        <button
             className="thanks-video-link"
-            href="https://vimeo.com/1224462616"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Watch the wedding video on Vimeo"
+            type="button"
+            onClick={onVideoOpen}
+            aria-label="Watch the wedding video"
         >
             <span className="snaps-hint" aria-hidden="true">
                 <DrawnArrow className="snaps-hint-arrow" type="swirly" delay={0.25} />
@@ -617,7 +677,7 @@ const ThanksVideoSection = () => (
                     <span>THE SNAPS</span>
                 </span>
             </span>
-            <span className="thanks-video-card">
+            <motion.span className="thanks-video-card" layoutId="wedding-video">
                 <video
                     className="thanks-video-preview"
                     src="/videos/wedding-preview.mp4"
@@ -628,7 +688,7 @@ const ThanksVideoSection = () => (
                     preload="metadata"
                     aria-hidden="true"
                 />
-            </span>
+            </motion.span>
             <span className="thanks-video-cta" aria-hidden="true">
                 <DrawnArrow className="watch-hint-arrow" type="curved" delay={1.15} />
                 <span>WATCH</span>
@@ -638,7 +698,7 @@ const ThanksVideoSection = () => (
                     <span className="thanks-video-play-icon" />
                 </span>
             </span>
-        </a>
+        </button>
     </section>
 );
 
@@ -655,6 +715,7 @@ const getSelectedPhotoContext = (selectedPhoto) => {
 
 export default function App() {
     const [selectedPhoto, setSelectedPhoto] = useState(null);
+    const [isVideoOpen, setIsVideoOpen] = useState(false);
     const [hasLightboxNavigated, setHasLightboxNavigated] = useState(false);
     const selectedPhotoContext = getSelectedPhotoContext(selectedPhoto);
     const selectedPhotos = selectedPhotoContext?.track.photos ?? (selectedPhoto ? [selectedPhoto] : []);
@@ -754,13 +815,16 @@ export default function App() {
                 <main className="content thank-you-content">
                     <section className="thank-you-gallery" aria-label="Wedding photo gallery">
                         <FestivalLockup />
-                        <ThanksVideoSection />
+                        <ThanksVideoSection onVideoOpen={() => setIsVideoOpen(true)} />
                         {tracks.map((track, trackIndex) => (
                             <GalleryTrack key={track.id} track={track} trackIndex={trackIndex} onPhotoOpen={openPhoto} />
                         ))}
                     </section>
                 </main>
                 <AnimatePresence>
+                    {isVideoOpen && (
+                        <VideoLightbox onClose={() => setIsVideoOpen(false)} />
+                    )}
                     {selectedPhoto && (
                         <PhotoLightbox
                             photo={selectedPhoto}
