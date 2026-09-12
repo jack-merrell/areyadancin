@@ -181,6 +181,7 @@ body.lightbox-open {
     line-height: 0.88;
     letter-spacing: -0.08em;
     font-feature-settings: "swsh" 1, "onum" 1, "pnum" 1;
+    text-align: right;
     text-transform: uppercase;
 }
 
