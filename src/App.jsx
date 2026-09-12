@@ -728,7 +728,7 @@ const VideoLightbox = ({ onClose }) => {
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0.01 : 0.12 }}
+            transition={{ duration: reduceMotion ? 0.01 : 0.06, ease: [0.16, 1, 0.3, 1] }}
             onClick={onClose}
             role="dialog"
             aria-modal="true"
@@ -744,10 +744,9 @@ const VideoLightbox = ({ onClose }) => {
                 layoutId="wedding-video"
                 onClick={(event) => event.stopPropagation()}
                 transition={reduceMotion ? { duration: 0.01 } : {
-                    type: 'spring',
-                    stiffness: 420,
-                    damping: 38,
-                    mass: 0.65,
+                    type: 'tween',
+                    duration: 0.24,
+                    ease: [0.16, 1, 0.3, 1],
                 }}
             >
                 <iframe
