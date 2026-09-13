@@ -43,7 +43,7 @@ body.lightbox-open {
 .thank-you-gallery {
     min-height: 100vh;
     position: relative;
-    padding: clamp(2.5rem, 7vw, 5.2rem) 0 clamp(5rem, 13vw, 9rem);
+    padding: clamp(2.5rem, 7vw, 5.2rem) 0 0;
     background: var(--gallery-paper);
     overflow: hidden;
 }
@@ -538,6 +538,43 @@ body.lightbox-open {
     pointer-events: none;
 }
 
+.festival-illustration-footer {
+    position: relative;
+    height: clamp(18rem, 50vw, 42rem);
+    margin-top: clamp(5.5rem, 12vw, 9rem);
+    overflow: hidden;
+    background: var(--gallery-paper);
+    isolation: isolate;
+}
+
+.festival-illustration-layers {
+    position: absolute;
+    inset: 0;
+}
+
+.festival-illustration-layer {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    display: block;
+    width: max(100%, 80rem);
+    height: auto;
+    max-width: none;
+    pointer-events: none;
+    user-select: none;
+    will-change: transform;
+}
+
+.festival-illustration-back {
+    z-index: 1;
+    bottom: clamp(-4.5rem, -5vw, -2.5rem);
+}
+
+.festival-illustration-front {
+    z-index: 2;
+    bottom: -1px;
+}
+
 @media (max-width: 1100px) {
     .thanks-video-section {
         grid-template-columns: 1fr;
@@ -613,6 +650,19 @@ body.lightbox-open {
 
     .lightbox-filmstrip {
         justify-content: flex-start;
+    }
+
+    .festival-illustration-footer {
+        height: clamp(17rem, 76vw, 27rem);
+        margin-top: clamp(4rem, 14vw, 6rem);
+    }
+
+    .festival-illustration-layer {
+        width: max(100%, 54rem);
+    }
+
+    .festival-illustration-back {
+        bottom: clamp(-3.25rem, -10vw, -2rem);
     }
 }
 
