@@ -7,8 +7,6 @@ import {
     useInView,
     useMotionValue,
     useReducedMotion,
-    useScroll,
-    useTransform,
 } from 'motion/react';
 import { flushSync } from 'react-dom';
 import { tracks } from './photoTracks.js';
@@ -821,40 +819,6 @@ const ThanksVideoSection = ({ onVideoOpen }) => (
     </section>
 );
 
-const FestivalIllustrationFooter = () => {
-    const footerRef = useRef(null);
-    const reduceMotion = useReducedMotion();
-    const { scrollYProgress } = useScroll({
-        target: footerRef,
-        offset: ['start end', 'end start'],
-    });
-    const backY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [72, -88]);
-    const frontY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [12, -16]);
-
-    return (
-        <footer className="festival-illustration-footer" ref={footerRef} aria-label="Are Ya Dancin festival illustration">
-            <div className="festival-illustration-layers">
-                <motion.img
-                    className="festival-illustration-layer festival-illustration-back"
-                    src="/back.png"
-                    alt=""
-                    aria-hidden="true"
-                    style={{ x: '-50%', y: backY }}
-                    draggable="false"
-                />
-                <motion.img
-                    className="festival-illustration-layer festival-illustration-front"
-                    src="/front.png"
-                    alt=""
-                    aria-hidden="true"
-                    style={{ x: '-50%', y: frontY }}
-                    draggable="false"
-                />
-            </div>
-        </footer>
-    );
-};
-
 const getSelectedPhotoContext = (selectedPhoto) => {
     if (!selectedPhoto) return null;
 
@@ -972,7 +936,6 @@ export default function App() {
                         {tracks.map((track, trackIndex) => (
                             <GalleryTrack key={track.id} track={track} trackIndex={trackIndex} onPhotoOpen={openPhoto} />
                         ))}
-                        <FestivalIllustrationFooter />
                     </section>
                 </main>
                 <AnimatePresence>
