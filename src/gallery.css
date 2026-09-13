@@ -571,7 +571,7 @@ body.lightbox-open {
     }
 
     .festival-lockup {
-        margin-bottom: clamp(2.35rem, 6vw, 3.5rem);
+        margin-bottom: clamp(1.15rem, 3vw, 1.75rem);
     }
 
     .festival-title-mark {
