@@ -670,16 +670,24 @@ const DrawnArrow = ({ className, type, delay = 0 }) => {
 
 const VideoLightbox = ({ onClose }) => {
     const iframeRef = useRef(null);
+    const hasRequestedCloseRef = useRef(false);
     const reduceMotion = useReducedMotion();
 
     useBodyScrollLock();
+
+    const requestClose = useCallback(() => {
+        if (hasRequestedCloseRef.current) return;
+
+        hasRequestedCloseRef.current = true;
+        onClose();
+    }, [onClose]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key !== 'Escape') return;
 
             event.preventDefault();
-            onClose();
+            requestClose();
         };
 
         window.addEventListener('keydown', handleKeyDown);
@@ -687,7 +695,7 @@ const VideoLightbox = ({ onClose }) => {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [onClose]);
+    }, [requestClose]);
 
     useEffect(() => {
         const handleVimeoMessage = (event) => {
@@ -711,7 +719,7 @@ const VideoLightbox = ({ onClose }) => {
             }
 
             if (message?.event === 'ended') {
-                onClose();
+                requestClose();
             }
         };
 
@@ -720,7 +728,7 @@ const VideoLightbox = ({ onClose }) => {
         return () => {
             window.removeEventListener('message', handleVimeoMessage);
         };
-    }, [onClose]);
+    }, [requestClose]);
 
     return (
         <motion.div
@@ -729,23 +737,25 @@ const VideoLightbox = ({ onClose }) => {
             animate={{ opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
             transition={{ duration: reduceMotion ? 0.01 : 0.04, ease: [0.16, 1, 0.3, 1] }}
-            onClick={onClose}
+            onClick={requestClose}
             role="dialog"
             aria-modal="true"
             aria-label="Wedding video"
         >
             <div className="lightbox-actions" onClick={(event) => event.stopPropagation()}>
-                <button className="lightbox-action lightbox-close" type="button" onClick={onClose} aria-label="Close video" title="Close video">
+                <button className="lightbox-action lightbox-close" type="button" onClick={requestClose} aria-label="Close video" title="Close video">
                     CLOSE
                 </button>
             </div>
             <motion.div
                 className="video-lightbox-frame"
-                layoutId="wedding-video"
+                initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.985 }}
                 onClick={(event) => event.stopPropagation()}
                 transition={reduceMotion ? { duration: 0.01 } : {
                     type: 'tween',
-                    duration: 0.13,
+                    duration: 0.12,
                     ease: [0.16, 1, 0.3, 1],
                 }}
             >
