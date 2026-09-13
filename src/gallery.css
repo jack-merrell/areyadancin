@@ -566,10 +566,16 @@ body.lightbox-open {
 @media (max-width: 850px) {
     .thank-you-gallery {
         min-height: 100svh;
+        padding-top: clamp(1.25rem, 3.5vw, 2.6rem);
+        padding-bottom: clamp(2.5rem, 6.5vw, 4.5rem);
     }
 
     .festival-lockup {
         margin-bottom: clamp(2.35rem, 6vw, 3.5rem);
+    }
+
+    .festival-title-mark {
+        font-size: clamp(1.2rem, 3.9vw, 1.78rem);
     }
 
     .snaps-hint {
