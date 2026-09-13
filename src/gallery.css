@@ -569,9 +569,9 @@ body.lightbox-open {
 
     .snaps-hint {
         position: static;
-        grid-row: 3;
-        justify-self: center;
-        margin-top: 0.1rem;
+        justify-self: end;
+        align-self: end;
+        margin-bottom: clamp(0.2rem, 1.8vw, 0.45rem);
         transform: rotate(-2deg);
     }
 
@@ -584,15 +584,16 @@ body.lightbox-open {
     }
 
     .thanks-video-link {
-        grid-template-columns: 1fr;
-        justify-items: center;
-        gap: 0.7rem;
+        grid-template-columns: minmax(3.8rem, 4.2rem) auto minmax(3.8rem, 4.2rem);
+        align-items: end;
+        justify-content: center;
+        gap: clamp(0.35rem, 2.2vw, 0.65rem);
     }
 
     .thanks-video-cta {
-        justify-items: center;
+        justify-items: start;
         padding-bottom: 0;
-        text-align: center;
+        text-align: left;
     }
 
     .photo-lightbox {
