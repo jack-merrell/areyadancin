@@ -540,7 +540,7 @@ body.lightbox-open {
 
 .festival-illustration-footer {
     position: relative;
-    height: clamp(18rem, 50vw, 42rem);
+    height: clamp(20rem, 28vw, 32rem);
     margin-top: clamp(5.5rem, 12vw, 9rem);
     overflow: hidden;
     background: var(--gallery-paper);
@@ -557,7 +557,7 @@ body.lightbox-open {
     left: 50%;
     bottom: 0;
     display: block;
-    width: max(100%, 80rem);
+    width: clamp(54rem, 62vw, 72rem);
     height: auto;
     max-width: none;
     pointer-events: none;
