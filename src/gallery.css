@@ -568,8 +568,14 @@ body.lightbox-open {
         min-height: 100svh;
     }
 
+    .festival-lockup {
+        margin-bottom: clamp(2.35rem, 6vw, 3.5rem);
+    }
+
     .snaps-hint {
-        position: static;
+        position: relative;
+        right: auto;
+        bottom: auto;
         justify-self: end;
         align-self: end;
         margin-bottom: clamp(0.2rem, 1.8vw, 0.45rem);
@@ -577,7 +583,11 @@ body.lightbox-open {
     }
 
     .snaps-hint-arrow {
-        display: none;
+        display: block;
+        top: calc(100% - 0.35rem);
+        right: calc(100% - 2rem);
+        width: clamp(3.15rem, 12vw, 3.85rem);
+        transform: rotate(-8deg);
     }
 
     .thanks-video-card {
