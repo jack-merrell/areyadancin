@@ -1,4 +1,8 @@
 {
     "cleanUrls": true,
-    "trailingSlash": false
+    "trailingSlash": false,
+    "redirects": [
+        { "source": "/info", "destination": "/invite/info", "permanent": true },
+        { "source": "/gifts", "destination": "/invite/gifts", "permanent": true }
+    ]
 }
